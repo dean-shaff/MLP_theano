@@ -62,9 +62,12 @@ class MLP(object):
             params += h.params 
         self.params = params 
         self.hiddenLayers = hiddenLayers 
-        self.MLPoutput = self.hiddenLayers[-1].Toutput
-        
-    def save_params(self, filename,mode='pickle'):
+        self.MLPoutput = T.nnet.softmax(self.hiddenLayers[-1].output)
+        self.pred = T.argmax(self.MLPoutput, axis=1)
+        #self.L1 
+        #self.L2_sqr
+ 
+    def save_params(self,filename,mode='pickle'):
         """
         Save model parameters. 
         args:
@@ -108,6 +111,25 @@ class MLP(object):
         self.set_params(params) 
         print("Loading complete. Took {:.2f} seconds.".format(time.time() - t0))
 
+    def square_cost(self,y):
+        """
+        return square error fro a minibatch
+        """
+        return T.mean((self.MLPoutput - y)**2)
+
+    def negloglikelihood(self,y):
+        """
+        return negative log likelihood
+        """
+        # to understand this one, think about numpy indexing... 
+        return -T.mean(T.log(self.MLPoutput)[T.arange(y.shape[0]),y]) 
+        
+    def errors(self,y):
+        """
+        calculate error in a minibatch
+        """ 
+        return T.mean(T.neq(self.pred,y))
+
     def set_params(self,params):
         """
         Given a list of numpy arrays corresponding to parameters (weights and biases) 
@@ -123,7 +145,7 @@ if __name__ == "__main__":
     rng = np.random.RandomState(1234)
     x = T.matrix('x') 
     mlp = MLP(x,[10,1000,1000,100],rng) 
-    print(mlp.params) 
+    print([param.get_value().shape for param in mlp.params]) 
     mlp.save_params("test.hdf5",mode='hdf5')
     #mlp.save_params("test.pkl",mode='pickle')
     #mlp.load_params("test.pkl",mode="pickle")
