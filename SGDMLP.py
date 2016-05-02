@@ -23,6 +23,7 @@ class SGD(object):
             mb_size: minibatch_size (100) 
         """ 
         self.cost = self.model.negloglikelihood(y)
+        #self.cost = self.model.square_cost(y) 
         self.errors = self.model.errors(y)  
         lr = kwargs.get('lr',0.001) 
         mb_size = kwargs.get('mb_size',100)
@@ -126,7 +127,7 @@ if __name__ == "__main__":
     model = MLP(x, [1140,400,2],np.random.RandomState(1234))
     sgd = SGD(model,dataset)
     sgd.compileFunctions(x,y,lr=0.001,mb_size=1000) 
-    sgd.trainModel(n_epochs=500)
+    sgd.trainModel(n_epochs=100)
          
             
      
