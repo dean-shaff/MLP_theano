@@ -1,18 +1,131 @@
 import numpy as np 
 import theano
 import theano.tensor as T 
+import time 
+import cPickle as pickle
+import h5py 
 
 class HiddenLayer(object):
 
     def __init__(self, input, nIn, nOut,rng): 
+        """
+        args:
+            input: symbolic network input 
+            nIn: size of input vector
+            nOut: size of output vector 
+            rng: numpy random seed 
+        """
+        self.input = input
+        self.nIn = nIn
+        self.nOut = nOut
+        self.W = theano.shared(
+            value = np.asarray(
+                        rng.uniform(low = -np.sqrt(6./(nIn + nOut)),
+                                    high = np.sqrt(6./(nIn + nOut)),
+                                    size = (nIn, nOut)),
+                                    dtype=theano.config.floatX),
+                        name='W',
+                        borrow=True)
+        self.b = theano.shared(
+            value = np.zeros(nOut,).astype(theano.config.floatX),
+                        name='b',
+                        borrow=True)
         
-        pass 
+        self.output = T.dot(input,self.W) + self.b 
+        self.Toutput = T.nnet.sigmoid(self.output) 
+        self.params = [self.W, self.b] 
 
+    def set_params(self,params):
+        """
+        set the parameters of hidden layer. One might do this after saving.
+        """
+        self.W.set_value(params[0])
+        self.b.set_value(params[1])
     
 class MLP(object):
     
-    def __init__(self, input, hiddenDim, rng): 
-        pass 
+    def __init__(self, input, dim, rng): 
+        """
+        Define an MLP, consisting of hidden layers.
+        args:
+            -input: symbolic input for graph
+            -dim: The dimensions of each of the layers in the NN 
+            -rng: numpy random seed, for hidden layers
+        """
+        self.input = input 
+        h0 = HiddenLayer(self.input, dim[0], dim[1], rng)
+        hiddenLayers = [h0]
+        params = h0.params         
+        for i in xrange(1,len(dim)-1):
+            h = HiddenLayer(hiddenLayers[-1].Toutput, dim[i], dim[i+1], rng) 
+            hiddenLayers.append(h) 
+            params += h.params 
+        self.params = params 
+        self.hiddenLayers = hiddenLayers 
+        self.MLPoutput = self.hiddenLayers[-1].Toutput
+        
+    def save_params(self, filename,mode='pickle'):
+        """
+        Save model parameters. 
+        args:
+            filename: where to save the file 
+        kwargs:
+            mode: 'pickle' or 'hdf5'
+        """
+        print("Saving parameters....")
+        t0 = time.time() 
+        params = [param.get_value() for param in self.params]  
+        if mode == 'pickle':
+            with open(filename, 'wb') as f:
+                pickle.dump(params,f)
+        elif mode == 'hdf5':
+            f = h5py.File(filename,"w") 
+            for i in xrange(len(self.hiddenLayers)):
+                f.create_dataset("w{}".format(i), data=params[2*i])
+                f.create_dataset("b{}".format(i), data=params[2*i + 1]) 
+            f.close() 
+        print("Saving complete. Took {:.2f} seconds.".format(time.time() - t0))
+
+    def load_params(self, filename, mode='pickle'):
+        """
+        Load and set model parameters from some checkpoint file.
+        args:
+            filename: file with save model parameters
+        kwargs:
+            mode: 'pickle' or 'hdf5' (hdf5 is between 1 and 2 orders of magnitude faster) 
+        """
+        print("Loading in model parameters....")
+        t0 = time.time()
+        if mode == 'pickle':
+            with open(filename, 'r') as f:
+                params = pickle.load(f) 
+        elif mode == 'hdf5':
+            f = h5py.File(filename, 'r')
+            params = [] 
+            for i in xrange(len(self.hiddenLayers)):
+                params.append(f["w{}".format(i)][:,:])
+                params.append(f["b{}".format(i)][:])
+        self.set_params(params) 
+        print("Loading complete. Took {:.2f} seconds.".format(time.time() - t0))
+
+    def set_params(self,params):
+        """
+        Given a list of numpy arrays corresponding to parameters (weights and biases) 
+        for layers, this will update model paramters.
+        args:
+            -params: a python list with numpy arrays corresponding to weights and biases
+        """
+        for i in xrange(len(self.hiddenLayers)):
+            self.hiddenLayers[i].set_params(params[2*i:(2*i)+2])
 
 
-
+if __name__ == "__main__":
+    rng = np.random.RandomState(1234)
+    x = T.matrix('x') 
+    mlp = MLP(x,[10,1000,1000,100],rng) 
+    print(mlp.params) 
+    mlp.save_params("test.hdf5",mode='hdf5')
+    #mlp.save_params("test.pkl",mode='pickle')
+    #mlp.load_params("test.pkl",mode="pickle")
+    mlp.load_params("test.hdf5",mode="hdf5")
+     
