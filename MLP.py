@@ -7,7 +7,7 @@ import h5py
 
 class HiddenLayer(object):
 
-    def __init__(self, input, nIn, nOut,rng): 
+    def __init__(self, input, nIn, nOut,rng,transfer_func): 
         """
         args:
             input: symbolic network input 
@@ -32,7 +32,7 @@ class HiddenLayer(object):
                         borrow=True)
         
         self.output = T.dot(input,self.W) + self.b 
-        self.Toutput = T.nnet.sigmoid(self.output) 
+        self.Toutput = transfer_func(self.output) 
         self.params = [self.W, self.b] 
 
     def set_params(self,params):
@@ -44,7 +44,7 @@ class HiddenLayer(object):
     
 class MLP(object):
     
-    def __init__(self, input, dim, rng): 
+    def __init__(self, input, dim, rng,transfer_func=T.nnet.sigmoid): 
         """
         Define an MLP, consisting of hidden layers.
         args:
@@ -53,11 +53,11 @@ class MLP(object):
             -rng: numpy random seed, for hidden layers
         """
         self.input = input 
-        h0 = HiddenLayer(self.input, dim[0], dim[1], rng)
+        h0 = HiddenLayer(self.input, dim[0], dim[1], rng,transfer_func)
         hiddenLayers = [h0]
         params = h0.params         
         for i in xrange(1,len(dim)-1):
-            h = HiddenLayer(hiddenLayers[-1].Toutput, dim[i], dim[i+1], rng) 
+            h = HiddenLayer(hiddenLayers[-1].Toutput, dim[i], dim[i+1], rng,transfer_func) 
             hiddenLayers.append(h) 
             params += h.params 
         self.params = params 

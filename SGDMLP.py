@@ -46,15 +46,15 @@ class SGD(object):
             }
         )
         print("Done compiling training function") 
-        self.feed_thru = theano.function(
-            inputs = [index],
-            outputs = self.model.hiddenLayers[-1].output,
-            givens = {
-                x: self.shared_train_x[index*mb_size: (index+1)*mb_size]#,
-               # y: self.shared_y[index*mb_size: (index+1)*mb_size]
-            }
-        )
-        print("Done compiling feed through function") 
+        #self.feed_thru = theano.function(
+        #    inputs = [index],
+        #    outputs = self.model.hiddenLayers[-1].output,
+        #    givens = {
+        #        x: self.shared_train_x[index*mb_size: (index+1)*mb_size]#,
+        #       # y: self.shared_y[index*mb_size: (index+1)*mb_size]
+        #    }
+        #)
+        #print("Done compiling feed through function") 
         self.test = theano.function(
             inputs = [index],
             outputs = self.errors,
@@ -124,23 +124,23 @@ class SGD(object):
 
     
 if __name__ == "__main__":
-    #dataFile = "dataFiles/datPS_10000_02-05_norm_by-wf_ignoreTop.hdf5"
-    #dataset = Dataset(dataFile)
-    #x = T.matrix('x')
-    #y = T.lvector('y') 
-    #model = MLP(x, [1140,400,2],np.random.RandomState(1234))
-    #sgd = SGD(model,dataset)
-    #sgd.compileFunctions(x,y,lr=0.001,mb_size=1000) 
-    #sgd.trainModel(n_epochs=100)
-
-    mnist_file = "dataFiles/mnist.pkl"
-    dataset_mnist = Dataset(mnist_file) 
+    dataFile = "dataFiles/datPS_10000_02-05_norm_by-wf_ignoreTop.hdf5"
+    dataset = Dataset(dataFile)
     x = T.matrix('x')
     y = T.lvector('y') 
-    model = MLP(x, [dataset_mnist.vec_size,500,10],np.random.RandomState(1234))
-    sgd = SGD(model,dataset_mnist)
-    sgd.compileFunctions(x,y,lr=0.01,mb_size=20) 
-    sgd.trainModel(n_epochs=100)
+    model = MLP(x, [1140,500,2],np.random.RandomState(1234),transfer_func=T.nnet.relu)
+    sgd = SGD(model,dataset)
+    sgd.compileFunctions(x,y,lr=0.005,mb_size=20) 
+    sgd.trainModel(n_epochs=1000)
+
+    #mnist_file = "dataFiles/mnist.pkl"
+    #dataset_mnist = Dataset(mnist_file) 
+    #x = T.matrix('x')
+    #y = T.lvector('y') 
+    #model = MLP(x, [dataset_mnist.vec_size,500,10],np.random.RandomState(1234))
+    #sgd = SGD(model,dataset_mnist)
+    #sgd.compileFunctions(x,y,lr=0.01,mb_size=20) 
+    #sgd.trainModel(n_epochs=100)
          
             
      

@@ -1,0 +1,1506 @@
+Loading data set...
+Dataset loaded. Took 0.21 seconds
+Starting to compile theano functions. Could take a bit...
+Done compiling training function
+Functions compiled. Took 14.90 seconds
+Beginning to train MLP
+Time for epoch 0: 1.07
+Current test error: 0.41125
+Current train error: 0.39421875
+Saving parameters....
+Saving complete. Took 0.04 seconds.
+Time for epoch 1: 0.97
+Time for epoch 2: 1.18
+Time for epoch 3: 1.02
+Time for epoch 4: 1.09
+Time for epoch 5: 1.14
+Current test error: 0.385208333333
+Current train error: 0.333333333333
+Time for epoch 6: 1.08
+Time for epoch 7: 1.06
+Time for epoch 8: 1.06
+Time for epoch 9: 1.15
+Time for epoch 10: 1.12
+Current test error: 0.374375
+Current train error: 0.304270833333
+Time for epoch 11: 1.09
+Time for epoch 12: 1.06
+Time for epoch 13: 1.11
+Time for epoch 14: 1.11
+Time for epoch 15: 1.13
+Current test error: 0.37125
+Current train error: 0.283020833333
+Time for epoch 16: 1.15
+Time for epoch 17: 1.13
+Time for epoch 18: 1.08
+Time for epoch 19: 1.09
+Time for epoch 20: 1.09
+Current test error: 0.366041666667
+Current train error: 0.26640625
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 21: 1.09
+Time for epoch 22: 1.07
+Time for epoch 23: 1.07
+Time for epoch 24: 1.04
+Time for epoch 25: 0.94
+Current test error: 0.361458333333
+Current train error: 0.252239583333
+Time for epoch 26: 1.07
+Time for epoch 27: 1.06
+Time for epoch 28: 1.04
+Time for epoch 29: 1.07
+Time for epoch 30: 1.02
+Current test error: 0.359166666667
+Current train error: 0.240677083333
+Time for epoch 31: 1.03
+Time for epoch 32: 1.08
+Time for epoch 33: 1.19
+Time for epoch 34: 1.13
+Time for epoch 35: 1.09
+Current test error: 0.357708333333
+Current train error: 0.232083333333
+Time for epoch 36: 1.14
+Time for epoch 37: 1.15
+Time for epoch 38: 1.17
+Time for epoch 39: 1.14
+Time for epoch 40: 1.13
+Current test error: 0.358333333333
+Current train error: 0.22359375
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 41: 1.12
+Time for epoch 42: 1.15
+Time for epoch 43: 0.98
+Time for epoch 44: 1.11
+Time for epoch 45: 1.14
+Current test error: 0.357291666667
+Current train error: 0.215364583333
+Time for epoch 46: 1.19
+Time for epoch 47: 1.02
+Time for epoch 48: 1.00
+Time for epoch 49: 0.96
+Time for epoch 50: 1.12
+Current test error: 0.354583333333
+Current train error: 0.206927083333
+Time for epoch 51: 1.05
+Time for epoch 52: 1.09
+Time for epoch 53: 1.15
+Time for epoch 54: 1.08
+Time for epoch 55: 1.10
+Current test error: 0.355416666667
+Current train error: 0.2009375
+Time for epoch 56: 1.17
+Time for epoch 57: 1.17
+Time for epoch 58: 1.13
+Time for epoch 59: 1.17
+Time for epoch 60: 1.15
+Current test error: 0.353333333333
+Current train error: 0.194583333333
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 61: 1.22
+Time for epoch 62: 1.14
+Time for epoch 63: 1.18
+Time for epoch 64: 1.17
+Time for epoch 65: 1.17
+Current test error: 0.349375
+Current train error: 0.187864583333
+Time for epoch 66: 1.16
+Time for epoch 67: 1.18
+Time for epoch 68: 1.15
+Time for epoch 69: 1.18
+Time for epoch 70: 1.14
+Current test error: 0.347291666667
+Current train error: 0.182760416667
+Time for epoch 71: 1.08
+Time for epoch 72: 1.02
+Time for epoch 73: 1.16
+Time for epoch 74: 1.01
+Time for epoch 75: 1.02
+Current test error: 0.344791666667
+Current train error: 0.178125
+Time for epoch 76: 1.14
+Time for epoch 77: 1.14
+Time for epoch 78: 1.15
+Time for epoch 79: 1.11
+Time for epoch 80: 1.04
+Current test error: 0.345625
+Current train error: 0.173020833333
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 81: 1.10
+Time for epoch 82: 1.10
+Time for epoch 83: 1.08
+Time for epoch 84: 1.08
+Time for epoch 85: 1.08
+Current test error: 0.343541666667
+Current train error: 0.168541666667
+Time for epoch 86: 1.11
+Time for epoch 87: 1.09
+Time for epoch 88: 1.07
+Time for epoch 89: 1.07
+Time for epoch 90: 1.13
+Current test error: 0.342916666667
+Current train error: 0.164427083333
+Time for epoch 91: 1.11
+Time for epoch 92: 1.13
+Time for epoch 93: 1.04
+Time for epoch 94: 1.07
+Time for epoch 95: 1.07
+Current test error: 0.341875
+Current train error: 0.161041666667
+Time for epoch 96: 0.98
+Time for epoch 97: 1.13
+Time for epoch 98: 1.08
+Time for epoch 99: 1.04
+Time for epoch 100: 1.08
+Current test error: 0.343541666667
+Current train error: 0.15796875
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 101: 1.06
+Time for epoch 102: 1.03
+Time for epoch 103: 0.97
+Time for epoch 104: 0.99
+Time for epoch 105: 1.08
+Current test error: 0.341875
+Current train error: 0.155520833333
+Time for epoch 106: 1.03
+Time for epoch 107: 1.06
+Time for epoch 108: 1.06
+Time for epoch 109: 1.08
+Time for epoch 110: 1.10
+Current test error: 0.340833333333
+Current train error: 0.152395833333
+Time for epoch 111: 1.07
+Time for epoch 112: 1.10
+Time for epoch 113: 1.11
+Time for epoch 114: 1.11
+Time for epoch 115: 1.12
+Current test error: 0.339791666667
+Current train error: 0.1484375
+Time for epoch 116: 1.06
+Time for epoch 117: 1.09
+Time for epoch 118: 1.04
+Time for epoch 119: 0.96
+Time for epoch 120: 1.02
+Current test error: 0.340625
+Current train error: 0.145416666667
+Saving parameters....
+Saving complete. Took 0.01 seconds.
+Time for epoch 121: 0.90
+Time for epoch 122: 0.92
+Time for epoch 123: 0.97
+Time for epoch 124: 0.98
+Time for epoch 125: 0.97
+Current test error: 0.33875
+Current train error: 0.141927083333
+Time for epoch 126: 0.98
+Time for epoch 127: 1.14
+Time for epoch 128: 1.01
+Time for epoch 129: 1.17
+Time for epoch 130: 1.05
+Current test error: 0.337708333333
+Current train error: 0.139375
+Time for epoch 131: 0.96
+Time for epoch 132: 0.95
+Time for epoch 133: 1.19
+Time for epoch 134: 1.06
+Time for epoch 135: 0.99
+Current test error: 0.336875
+Current train error: 0.136510416667
+Time for epoch 136: 0.97
+Time for epoch 137: 0.94
+Time for epoch 138: 0.96
+Time for epoch 139: 0.96
+Time for epoch 140: 0.93
+Current test error: 0.336875
+Current train error: 0.134739583333
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 141: 0.99
+Time for epoch 142: 1.04
+Time for epoch 143: 1.05
+Time for epoch 144: 1.07
+Time for epoch 145: 1.09
+Current test error: 0.336458333333
+Current train error: 0.129635416667
+Time for epoch 146: 1.04
+Time for epoch 147: 0.96
+Time for epoch 148: 1.04
+Time for epoch 149: 1.12
+Time for epoch 150: 1.08
+Current test error: 0.337708333333
+Current train error: 0.127135416667
+Time for epoch 151: 1.09
+Time for epoch 152: 1.08
+Time for epoch 153: 1.08
+Time for epoch 154: 1.09
+Time for epoch 155: 1.06
+Current test error: 0.336458333333
+Current train error: 0.126041666667
+Time for epoch 156: 1.03
+Time for epoch 157: 1.07
+Time for epoch 158: 1.10
+Time for epoch 159: 1.06
+Time for epoch 160: 1.07
+Current test error: 0.336458333333
+Current train error: 0.124322916667
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 161: 0.95
+Time for epoch 162: 0.98
+Time for epoch 163: 0.96
+Time for epoch 164: 0.95
+Time for epoch 165: 1.10
+Current test error: 0.335833333333
+Current train error: 0.121197916667
+Time for epoch 166: 0.94
+Time for epoch 167: 0.94
+Time for epoch 168: 0.93
+Time for epoch 169: 1.10
+Time for epoch 170: 1.13
+Current test error: 0.334166666667
+Current train error: 0.1190625
+Time for epoch 171: 1.06
+Time for epoch 172: 1.04
+Time for epoch 173: 1.04
+Time for epoch 174: 1.02
+Time for epoch 175: 1.12
+Current test error: 0.332916666667
+Current train error: 0.1178125
+Time for epoch 176: 1.07
+Time for epoch 177: 1.08
+Time for epoch 178: 1.07
+Time for epoch 179: 1.02
+Time for epoch 180: 1.02
+Current test error: 0.333958333333
+Current train error: 0.116822916667
+Saving parameters....
+Saving complete. Took 0.01 seconds.
+Time for epoch 181: 1.03
+Time for epoch 182: 1.01
+Time for epoch 183: 1.05
+Time for epoch 184: 1.03
+Time for epoch 185: 1.07
+Current test error: 0.335208333333
+Current train error: 0.114583333333
+Time for epoch 186: 1.06
+Time for epoch 187: 1.03
+Time for epoch 188: 1.06
+Time for epoch 189: 1.12
+Time for epoch 190: 1.15
+Current test error: 0.335
+Current train error: 0.112239583333
+Time for epoch 191: 1.05
+Time for epoch 192: 1.07
+Time for epoch 193: 1.07
+Time for epoch 194: 1.08
+Time for epoch 195: 1.02
+Current test error: 0.33375
+Current train error: 0.110833333333
+Time for epoch 196: 1.04
+Time for epoch 197: 1.07
+Time for epoch 198: 0.98
+Time for epoch 199: 1.04
+Time for epoch 200: 1.05
+Current test error: 0.333125
+Current train error: 0.108958333333
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 201: 1.04
+Time for epoch 202: 1.12
+Time for epoch 203: 1.04
+Time for epoch 204: 1.09
+Time for epoch 205: 1.07
+Current test error: 0.3325
+Current train error: 0.107395833333
+Time for epoch 206: 1.08
+Time for epoch 207: 1.06
+Time for epoch 208: 1.04
+Time for epoch 209: 1.04
+Time for epoch 210: 1.04
+Current test error: 0.333125
+Current train error: 0.105520833333
+Time for epoch 211: 1.07
+Time for epoch 212: 1.04
+Time for epoch 213: 1.07
+Time for epoch 214: 1.03
+Time for epoch 215: 1.09
+Current test error: 0.332291666667
+Current train error: 0.103385416667
+Time for epoch 216: 1.05
+Time for epoch 217: 1.08
+Time for epoch 218: 1.03
+Time for epoch 219: 1.08
+Time for epoch 220: 1.07
+Current test error: 0.332708333333
+Current train error: 0.102239583333
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 221: 1.12
+Time for epoch 222: 0.98
+Time for epoch 223: 1.03
+Time for epoch 224: 1.06
+Time for epoch 225: 1.07
+Current test error: 0.332083333333
+Current train error: 0.10078125
+Time for epoch 226: 1.09
+Time for epoch 227: 1.13
+Time for epoch 228: 1.08
+Time for epoch 229: 1.10
+Time for epoch 230: 1.04
+Current test error: 0.332083333333
+Current train error: 0.09921875
+Time for epoch 231: 1.41
+Time for epoch 232: 1.09
+Time for epoch 233: 1.08
+Time for epoch 234: 1.10
+Time for epoch 235: 1.22
+Current test error: 0.332291666667
+Current train error: 0.0996354166667
+Time for epoch 236: 1.07
+Time for epoch 237: 1.09
+Time for epoch 238: 1.11
+Time for epoch 239: 1.10
+Time for epoch 240: 1.06
+Current test error: 0.333333333333
+Current train error: 0.0984375
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 241: 1.09
+Time for epoch 242: 1.05
+Time for epoch 243: 1.08
+Time for epoch 244: 1.06
+Time for epoch 245: 1.05
+Current test error: 0.334583333333
+Current train error: 0.0968229166667
+Time for epoch 246: 1.06
+Time for epoch 247: 1.12
+Time for epoch 248: 1.05
+Time for epoch 249: 1.03
+Time for epoch 250: 0.97
+Current test error: 0.33375
+Current train error: 0.09640625
+Time for epoch 251: 1.01
+Time for epoch 252: 0.93
+Time for epoch 253: 1.01
+Time for epoch 254: 1.08
+Time for epoch 255: 1.04
+Current test error: 0.334375
+Current train error: 0.0947916666667
+Time for epoch 256: 1.13
+Time for epoch 257: 1.12
+Time for epoch 258: 1.20
+Time for epoch 259: 1.13
+Time for epoch 260: 1.16
+Current test error: 0.334791666667
+Current train error: 0.0938541666667
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 261: 1.16
+Time for epoch 262: 1.13
+Time for epoch 263: 1.16
+Time for epoch 264: 1.20
+Time for epoch 265: 1.20
+Current test error: 0.332916666667
+Current train error: 0.09375
+Time for epoch 266: 1.13
+Time for epoch 267: 1.13
+Time for epoch 268: 1.12
+Time for epoch 269: 1.13
+Time for epoch 270: 1.15
+Current test error: 0.33375
+Current train error: 0.0935416666667
+Time for epoch 271: 1.11
+Time for epoch 272: 1.12
+Time for epoch 273: 1.15
+Time for epoch 274: 1.14
+Time for epoch 275: 1.17
+Current test error: 0.332916666667
+Current train error: 0.0911979166667
+Time for epoch 276: 1.10
+Time for epoch 277: 1.09
+Time for epoch 278: 0.94
+Time for epoch 279: 1.01
+Time for epoch 280: 1.03
+Current test error: 0.335208333333
+Current train error: 0.09109375
+Saving parameters....
+Saving complete. Took 0.01 seconds.
+Time for epoch 281: 1.15
+Time for epoch 282: 0.99
+Time for epoch 283: 1.04
+Time for epoch 284: 1.04
+Time for epoch 285: 1.08
+Current test error: 0.33375
+Current train error: 0.0895833333333
+Time for epoch 286: 1.21
+Time for epoch 287: 1.23
+Time for epoch 288: 1.04
+Time for epoch 289: 1.07
+Time for epoch 290: 1.06
+Current test error: 0.332083333333
+Current train error: 0.08765625
+Time for epoch 291: 1.06
+Time for epoch 292: 1.06
+Time for epoch 293: 1.04
+Time for epoch 294: 1.04
+Time for epoch 295: 0.99
+Current test error: 0.331458333333
+Current train error: 0.0869270833333
+Time for epoch 296: 1.04
+Time for epoch 297: 1.03
+Time for epoch 298: 1.04
+Time for epoch 299: 1.13
+Time for epoch 300: 1.13
+Current test error: 0.332916666667
+Current train error: 0.08625
+Saving parameters....
+Saving complete. Took 0.01 seconds.
+Time for epoch 301: 1.05
+Time for epoch 302: 1.12
+Time for epoch 303: 1.11
+Time for epoch 304: 1.12
+Time for epoch 305: 1.12
+Current test error: 0.331666666667
+Current train error: 0.0844791666667
+Time for epoch 306: 1.05
+Time for epoch 307: 1.05
+Time for epoch 308: 1.13
+Time for epoch 309: 1.12
+Time for epoch 310: 1.06
+Current test error: 0.33375
+Current train error: 0.0839583333333
+Time for epoch 311: 1.05
+Time for epoch 312: 1.09
+Time for epoch 313: 1.11
+Time for epoch 314: 1.09
+Time for epoch 315: 1.04
+Current test error: 0.329375
+Current train error: 0.0842708333333
+Time for epoch 316: 1.05
+Time for epoch 317: 1.08
+Time for epoch 318: 1.09
+Time for epoch 319: 1.00
+Time for epoch 320: 0.97
+Current test error: 0.332916666667
+Current train error: 0.0832291666667
+Saving parameters....
+Saving complete. Took 0.01 seconds.
+Time for epoch 321: 1.18
+Time for epoch 322: 1.10
+Time for epoch 323: 1.04
+Time for epoch 324: 1.06
+Time for epoch 325: 1.03
+Current test error: 0.331458333333
+Current train error: 0.08375
+Time for epoch 326: 1.10
+Time for epoch 327: 1.04
+Time for epoch 328: 1.05
+Time for epoch 329: 1.07
+Time for epoch 330: 1.07
+Current test error: 0.331875
+Current train error: 0.0830729166667
+Time for epoch 331: 1.07
+Time for epoch 332: 1.08
+Time for epoch 333: 1.06
+Time for epoch 334: 1.06
+Time for epoch 335: 1.11
+Current test error: 0.33125
+Current train error: 0.08203125
+Time for epoch 336: 1.06
+Time for epoch 337: 1.07
+Time for epoch 338: 1.10
+Time for epoch 339: 1.05
+Time for epoch 340: 1.02
+Current test error: 0.333541666667
+Current train error: 0.0822916666667
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 341: 1.12
+Time for epoch 342: 1.05
+Time for epoch 343: 1.05
+Time for epoch 344: 1.00
+Time for epoch 345: 1.03
+Current test error: 0.333333333333
+Current train error: 0.0834375
+Time for epoch 346: 1.04
+Time for epoch 347: 1.04
+Time for epoch 348: 1.09
+Time for epoch 349: 1.13
+Time for epoch 350: 1.07
+Current test error: 0.331458333333
+Current train error: 0.0826041666667
+Time for epoch 351: 1.06
+Time for epoch 352: 1.07
+Time for epoch 353: 1.08
+Time for epoch 354: 1.10
+Time for epoch 355: 1.08
+Current test error: 0.332708333333
+Current train error: 0.08203125
+Time for epoch 356: 1.05
+Time for epoch 357: 1.09
+Time for epoch 358: 1.09
+Time for epoch 359: 1.12
+Time for epoch 360: 0.95
+Current test error: 0.332291666667
+Current train error: 0.08375
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 361: 1.03
+Time for epoch 362: 0.97
+Time for epoch 363: 0.95
+Time for epoch 364: 1.08
+Time for epoch 365: 0.99
+Current test error: 0.33125
+Current train error: 0.07953125
+Time for epoch 366: 0.97
+Time for epoch 367: 0.97
+Time for epoch 368: 0.95
+Time for epoch 369: 1.02
+Time for epoch 370: 0.98
+Current test error: 0.335416666667
+Current train error: 0.0800520833333
+Time for epoch 371: 1.12
+Time for epoch 372: 1.10
+Time for epoch 373: 1.06
+Time for epoch 374: 1.10
+Time for epoch 375: 1.05
+Current test error: 0.336875
+Current train error: 0.0800520833333
+Time for epoch 376: 1.09
+Time for epoch 377: 1.04
+Time for epoch 378: 1.10
+Time for epoch 379: 1.09
+Time for epoch 380: 1.02
+Current test error: 0.338541666667
+Current train error: 0.0768229166667
+Saving parameters....
+Saving complete. Took 0.01 seconds.
+Time for epoch 381: 1.11
+Time for epoch 382: 1.09
+Time for epoch 383: 1.06
+Time for epoch 384: 1.06
+Time for epoch 385: 1.10
+Current test error: 0.335625
+Current train error: 0.0749479166667
+Time for epoch 386: 1.07
+Time for epoch 387: 1.05
+Time for epoch 388: 0.97
+Time for epoch 389: 0.95
+Time for epoch 390: 0.95
+Current test error: 0.33375
+Current train error: 0.0788541666667
+Time for epoch 391: 0.96
+Time for epoch 392: 0.94
+Time for epoch 393: 0.93
+Time for epoch 394: 0.95
+Time for epoch 395: 0.88
+Current test error: 0.33625
+Current train error: 0.0752083333333
+Time for epoch 396: 0.89
+Time for epoch 397: 0.92
+Time for epoch 398: 0.93
+Time for epoch 399: 0.91
+Time for epoch 400: 0.94
+Current test error: 0.337083333333
+Current train error: 0.0788020833333
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 401: 0.97
+Time for epoch 402: 0.94
+Time for epoch 403: 0.99
+Time for epoch 404: 0.92
+Time for epoch 405: 0.95
+Current test error: 0.336458333333
+Current train error: 0.0769791666667
+Time for epoch 406: 0.92
+Time for epoch 407: 0.94
+Time for epoch 408: 0.94
+Time for epoch 409: 0.93
+Time for epoch 410: 0.96
+Current test error: 0.333333333333
+Current train error: 0.0788541666667
+Time for epoch 411: 0.95
+Time for epoch 412: 1.05
+Time for epoch 413: 1.04
+Time for epoch 414: 1.04
+Time for epoch 415: 1.03
+Current test error: 0.336666666667
+Current train error: 0.07265625
+Time for epoch 416: 1.10
+Time for epoch 417: 1.02
+Time for epoch 418: 1.07
+Time for epoch 419: 1.05
+Time for epoch 420: 1.03
+Current test error: 0.335208333333
+Current train error: 0.076875
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 421: 1.04
+Time for epoch 422: 0.95
+Time for epoch 423: 1.02
+Time for epoch 424: 1.05
+Time for epoch 425: 1.08
+Current test error: 0.334166666667
+Current train error: 0.08515625
+Time for epoch 426: 1.02
+Time for epoch 427: 1.05
+Time for epoch 428: 1.05
+Time for epoch 429: 1.09
+Time for epoch 430: 1.07
+Current test error: 0.335208333333
+Current train error: 0.0755208333333
+Time for epoch 431: 1.21
+Time for epoch 432: 1.11
+Time for epoch 433: 1.11
+Time for epoch 434: 1.09
+Time for epoch 435: 1.12
+Current test error: 0.333333333333
+Current train error: 0.09109375
+Time for epoch 436: 1.05
+Time for epoch 437: 1.05
+Time for epoch 438: 1.13
+Time for epoch 439: 1.12
+Time for epoch 440: 1.07
+Current test error: 0.334375
+Current train error: 0.0738541666667
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 441: 1.11
+Time for epoch 442: 1.06
+Time for epoch 443: 1.13
+Time for epoch 444: 1.10
+Time for epoch 445: 1.05
+Current test error: 0.333125
+Current train error: 0.0760416666667
+Time for epoch 446: 1.00
+Time for epoch 447: 1.11
+Time for epoch 448: 1.12
+Time for epoch 449: 1.05
+Time for epoch 450: 1.05
+Current test error: 0.3325
+Current train error: 0.0920833333333
+Time for epoch 451: 1.17
+Time for epoch 452: 1.14
+Time for epoch 453: 1.11
+Time for epoch 454: 1.18
+Time for epoch 455: 1.17
+Current test error: 0.328541666667
+Current train error: 0.0738020833333
+Time for epoch 456: 1.04
+Time for epoch 457: 1.06
+Time for epoch 458: 1.13
+Time for epoch 459: 0.97
+Time for epoch 460: 0.97
+Current test error: 0.332083333333
+Current train error: 0.0794270833333
+Saving parameters....
+Saving complete. Took 0.01 seconds.
+Time for epoch 461: 0.99
+Time for epoch 462: 0.95
+Time for epoch 463: 1.10
+Time for epoch 464: 1.00
+Time for epoch 465: 0.95
+Current test error: 0.332916666667
+Current train error: 0.0780729166667
+Time for epoch 466: 1.14
+Time for epoch 467: 1.16
+Time for epoch 468: 1.07
+Time for epoch 469: 1.04
+Time for epoch 470: 1.04
+Current test error: 0.332083333333
+Current train error: 0.0811458333333
+Time for epoch 471: 0.92
+Time for epoch 472: 1.03
+Time for epoch 473: 1.06
+Time for epoch 474: 1.10
+Time for epoch 475: 1.12
+Current test error: 0.332708333333
+Current train error: 0.0832291666667
+Time for epoch 476: 1.17
+Time for epoch 477: 1.12
+Time for epoch 478: 1.05
+Time for epoch 479: 1.04
+Time for epoch 480: 1.09
+Current test error: 0.330416666667
+Current train error: 0.0797916666667
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 481: 1.07
+Time for epoch 482: 1.03
+Time for epoch 483: 1.04
+Time for epoch 484: 1.06
+Time for epoch 485: 1.09
+Current test error: 0.329583333333
+Current train error: 0.0795833333333
+Time for epoch 486: 1.03
+Time for epoch 487: 1.02
+Time for epoch 488: 1.08
+Time for epoch 489: 1.06
+Time for epoch 490: 1.12
+Current test error: 0.332916666667
+Current train error: 0.0802083333333
+Time for epoch 491: 1.07
+Time for epoch 492: 1.08
+Time for epoch 493: 1.10
+Time for epoch 494: 1.06
+Time for epoch 495: 1.05
+Current test error: 0.328958333333
+Current train error: 0.0788020833333
+Time for epoch 496: 0.98
+Time for epoch 497: 1.06
+Time for epoch 498: 0.99
+Time for epoch 499: 1.04
+Time for epoch 500: 1.03
+Current test error: 0.330833333333
+Current train error: 0.08296875
+Saving parameters....
+Saving complete. Took 0.01 seconds.
+Time for epoch 501: 1.09
+Time for epoch 502: 1.04
+Time for epoch 503: 1.05
+Time for epoch 504: 1.06
+Time for epoch 505: 1.05
+Current test error: 0.327083333333
+Current train error: 0.0803645833333
+Time for epoch 506: 1.06
+Time for epoch 507: 1.04
+Time for epoch 508: 1.05
+Time for epoch 509: 1.07
+Time for epoch 510: 1.08
+Current test error: 0.3325
+Current train error: 0.0821875
+Time for epoch 511: 1.04
+Time for epoch 512: 1.05
+Time for epoch 513: 1.06
+Time for epoch 514: 1.06
+Time for epoch 515: 1.13
+Current test error: 0.329583333333
+Current train error: 0.0790625
+Time for epoch 516: 1.08
+Time for epoch 517: 1.02
+Time for epoch 518: 0.92
+Time for epoch 519: 0.96
+Time for epoch 520: 0.94
+Current test error: 0.332083333333
+Current train error: 0.0776041666667
+Saving parameters....
+Saving complete. Took 0.01 seconds.
+Time for epoch 521: 0.95
+Time for epoch 522: 0.90
+Time for epoch 523: 0.92
+Time for epoch 524: 0.95
+Time for epoch 525: 0.95
+Current test error: 0.331041666667
+Current train error: 0.0805729166667
+Time for epoch 526: 1.06
+Time for epoch 527: 1.06
+Time for epoch 528: 1.12
+Time for epoch 529: 1.10
+Time for epoch 530: 1.04
+Current test error: 0.330208333333
+Current train error: 0.07578125
+Time for epoch 531: 1.04
+Time for epoch 532: 1.09
+Time for epoch 533: 1.04
+Time for epoch 534: 1.06
+Time for epoch 535: 1.05
+Current test error: 0.33
+Current train error: 0.0759895833333
+Time for epoch 536: 1.22
+Time for epoch 537: 1.10
+Time for epoch 538: 1.04
+Time for epoch 539: 1.02
+Time for epoch 540: 1.11
+Current test error: 0.33
+Current train error: 0.0752604166667
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 541: 1.01
+Time for epoch 542: 1.16
+Time for epoch 543: 1.22
+Time for epoch 544: 1.03
+Time for epoch 545: 1.05
+Current test error: 0.328958333333
+Current train error: 0.0698958333333
+Time for epoch 546: 1.00
+Time for epoch 547: 1.12
+Time for epoch 548: 1.04
+Time for epoch 549: 1.11
+Time for epoch 550: 1.08
+Current test error: 0.332083333333
+Current train error: 0.0749479166667
+Time for epoch 551: 1.05
+Time for epoch 552: 1.05
+Time for epoch 553: 1.05
+Time for epoch 554: 1.03
+Time for epoch 555: 1.08
+Current test error: 0.330208333333
+Current train error: 0.0755208333333
+Time for epoch 556: 1.02
+Time for epoch 557: 1.07
+Time for epoch 558: 1.05
+Time for epoch 559: 1.12
+Time for epoch 560: 1.10
+Current test error: 0.328541666667
+Current train error: 0.08125
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 561: 1.10
+Time for epoch 562: 1.10
+Time for epoch 563: 1.10
+Time for epoch 564: 1.10
+Time for epoch 565: 1.08
+Current test error: 0.327708333333
+Current train error: 0.074375
+Time for epoch 566: 1.02
+Time for epoch 567: 1.14
+Time for epoch 568: 1.15
+Time for epoch 569: 1.05
+Time for epoch 570: 1.02
+Current test error: 0.331458333333
+Current train error: 0.0709375
+Time for epoch 571: 1.04
+Time for epoch 572: 1.02
+Time for epoch 573: 0.95
+Time for epoch 574: 0.93
+Time for epoch 575: 0.95
+Current test error: 0.329791666667
+Current train error: 0.08015625
+Time for epoch 576: 0.97
+Time for epoch 577: 0.96
+Time for epoch 578: 0.94
+Time for epoch 579: 0.95
+Time for epoch 580: 0.96
+Current test error: 0.325
+Current train error: 0.0638020833333
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 581: 0.98
+Time for epoch 582: 0.97
+Time for epoch 583: 0.95
+Time for epoch 584: 0.97
+Time for epoch 585: 0.97
+Current test error: 0.328958333333
+Current train error: 0.0686979166667
+Time for epoch 586: 1.08
+Time for epoch 587: 1.08
+Time for epoch 588: 1.07
+Time for epoch 589: 1.10
+Time for epoch 590: 1.13
+Current test error: 0.327291666667
+Current train error: 0.0715104166667
+Time for epoch 591: 1.13
+Time for epoch 592: 1.11
+Time for epoch 593: 1.01
+Time for epoch 594: 1.05
+Time for epoch 595: 1.02
+Current test error: 0.326458333333
+Current train error: 0.06671875
+Time for epoch 596: 0.98
+Time for epoch 597: 0.97
+Time for epoch 598: 1.04
+Time for epoch 599: 1.04
+Time for epoch 600: 1.06
+Current test error: 0.329375
+Current train error: 0.08703125
+Saving parameters....
+Saving complete. Took 0.01 seconds.
+Time for epoch 601: 1.08
+Time for epoch 602: 1.07
+Time for epoch 603: 1.04
+Time for epoch 604: 1.05
+Time for epoch 605: 1.10
+Current test error: 0.328541666667
+Current train error: 0.0709375
+Time for epoch 606: 1.04
+Time for epoch 607: 1.04
+Time for epoch 608: 1.06
+Time for epoch 609: 1.07
+Time for epoch 610: 1.26
+Current test error: 0.32625
+Current train error: 0.0692708333333
+Time for epoch 611: 1.03
+Time for epoch 612: 1.00
+Time for epoch 613: 1.10
+Time for epoch 614: 1.07
+Time for epoch 615: 1.03
+Current test error: 0.327083333333
+Current train error: 0.0863020833333
+Time for epoch 616: 1.09
+Time for epoch 617: 1.11
+Time for epoch 618: 1.05
+Time for epoch 619: 1.02
+Time for epoch 620: 1.04
+Current test error: 0.326458333333
+Current train error: 0.0688020833333
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 621: 1.07
+Time for epoch 622: 0.97
+Time for epoch 623: 1.03
+Time for epoch 624: 1.03
+Time for epoch 625: 1.04
+Current test error: 0.32625
+Current train error: 0.0655208333333
+Time for epoch 626: 1.06
+Time for epoch 627: 1.06
+Time for epoch 628: 1.02
+Time for epoch 629: 1.05
+Time for epoch 630: 1.06
+Current test error: 0.329375
+Current train error: 0.0750520833333
+Time for epoch 631: 1.03
+Time for epoch 632: 1.02
+Time for epoch 633: 1.04
+Time for epoch 634: 1.09
+Time for epoch 635: 1.10
+Current test error: 0.328125
+Current train error: 0.0691145833333
+Time for epoch 636: 1.04
+Time for epoch 637: 1.05
+Time for epoch 638: 1.13
+Time for epoch 639: 1.07
+Time for epoch 640: 1.05
+Current test error: 0.329375
+Current train error: 0.0705208333333
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 641: 1.08
+Time for epoch 642: 1.06
+Time for epoch 643: 1.05
+Time for epoch 644: 1.06
+Time for epoch 645: 1.05
+Current test error: 0.32875
+Current train error: 0.0628645833333
+Time for epoch 646: 1.07
+Time for epoch 647: 0.98
+Time for epoch 648: 1.04
+Time for epoch 649: 1.03
+Time for epoch 650: 1.03
+Current test error: 0.329166666667
+Current train error: 0.0707291666667
+Time for epoch 651: 1.04
+Time for epoch 652: 1.06
+Time for epoch 653: 1.05
+Time for epoch 654: 1.06
+Time for epoch 655: 1.11
+Current test error: 0.32375
+Current train error: 0.06625
+Time for epoch 656: 1.10
+Time for epoch 657: 1.11
+Time for epoch 658: 1.12
+Time for epoch 659: 1.11
+Time for epoch 660: 1.11
+Current test error: 0.327083333333
+Current train error: 0.0728645833333
+Saving parameters....
+Saving complete. Took 0.01 seconds.
+Time for epoch 661: 1.16
+Time for epoch 662: 1.13
+Time for epoch 663: 1.15
+Time for epoch 664: 1.13
+Time for epoch 665: 1.13
+Current test error: 0.326666666667
+Current train error: 0.0728125
+Time for epoch 666: 1.15
+Time for epoch 667: 1.14
+Time for epoch 668: 1.16
+Time for epoch 669: 1.20
+Time for epoch 670: 1.15
+Current test error: 0.326041666667
+Current train error: 0.07296875
+Time for epoch 671: 1.09
+Time for epoch 672: 1.10
+Time for epoch 673: 1.13
+Time for epoch 674: 1.01
+Time for epoch 675: 1.04
+Current test error: 0.328333333333
+Current train error: 0.0771354166667
+Time for epoch 676: 1.12
+Time for epoch 677: 1.06
+Time for epoch 678: 1.04
+Time for epoch 679: 1.05
+Time for epoch 680: 1.09
+Current test error: 0.325833333333
+Current train error: 0.0672395833333
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 681: 1.16
+Time for epoch 682: 1.24
+Time for epoch 683: 1.23
+Time for epoch 684: 1.07
+Time for epoch 685: 1.05
+Current test error: 0.325833333333
+Current train error: 0.0740104166667
+Time for epoch 686: 1.09
+Time for epoch 687: 1.10
+Time for epoch 688: 1.06
+Time for epoch 689: 1.07
+Time for epoch 690: 1.02
+Current test error: 0.321666666667
+Current train error: 0.0633333333333
+Time for epoch 691: 1.09
+Time for epoch 692: 1.06
+Time for epoch 693: 0.92
+Time for epoch 694: 0.94
+Time for epoch 695: 0.93
+Current test error: 0.324583333333
+Current train error: 0.06515625
+Time for epoch 696: 0.90
+Time for epoch 697: 0.90
+Time for epoch 698: 0.92
+Time for epoch 699: 0.93
+Time for epoch 700: 0.96
+Current test error: 0.3225
+Current train error: 0.07015625
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 701: 0.96
+Time for epoch 702: 0.94
+Time for epoch 703: 0.93
+Time for epoch 704: 0.92
+Time for epoch 705: 0.97
+Current test error: 0.334375
+Current train error: 0.0753645833333
+Time for epoch 706: 0.92
+Time for epoch 707: 0.93
+Time for epoch 708: 0.93
+Time for epoch 709: 0.94
+Time for epoch 710: 0.93
+Current test error: 0.332083333333
+Current train error: 0.0832291666667
+Time for epoch 711: 0.93
+Time for epoch 712: 0.93
+Time for epoch 713: 0.93
+Time for epoch 714: 0.93
+Time for epoch 715: 0.96
+Current test error: 0.334583333333
+Current train error: 0.09203125
+Time for epoch 716: 0.96
+Time for epoch 717: 1.08
+Time for epoch 718: 1.08
+Time for epoch 719: 1.13
+Time for epoch 720: 1.20
+Current test error: 0.328958333333
+Current train error: 0.07328125
+Saving parameters....
+Saving complete. Took 0.01 seconds.
+Time for epoch 721: 1.16
+Time for epoch 722: 1.08
+Time for epoch 723: 1.12
+Time for epoch 724: 1.09
+Time for epoch 725: 1.12
+Current test error: 0.329166666667
+Current train error: 0.0825520833333
+Time for epoch 726: 1.11
+Time for epoch 727: 1.10
+Time for epoch 728: 1.16
+Time for epoch 729: 1.13
+Time for epoch 730: 1.11
+Current test error: 0.325208333333
+Current train error: 0.0619270833333
+Time for epoch 731: 1.06
+Time for epoch 732: 1.02
+Time for epoch 733: 1.04
+Time for epoch 734: 1.00
+Time for epoch 735: 1.05
+Current test error: 0.325208333333
+Current train error: 0.0611458333333
+Time for epoch 736: 1.03
+Time for epoch 737: 1.02
+Time for epoch 738: 0.99
+Time for epoch 739: 0.92
+Time for epoch 740: 0.90
+Current test error: 0.32625
+Current train error: 0.0667708333333
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 741: 1.00
+Time for epoch 742: 0.92
+Time for epoch 743: 0.99
+Time for epoch 744: 1.05
+Time for epoch 745: 1.03
+Current test error: 0.326458333333
+Current train error: 0.068125
+Time for epoch 746: 1.03
+Time for epoch 747: 1.00
+Time for epoch 748: 1.01
+Time for epoch 749: 1.07
+Time for epoch 750: 1.03
+Current test error: 0.331666666667
+Current train error: 0.0816666666667
+Time for epoch 751: 1.06
+Time for epoch 752: 1.08
+Time for epoch 753: 1.06
+Time for epoch 754: 1.07
+Time for epoch 755: 1.09
+Current test error: 0.326458333333
+Current train error: 0.0685416666667
+Time for epoch 756: 1.13
+Time for epoch 757: 1.09
+Time for epoch 758: 1.04
+Time for epoch 759: 1.09
+Time for epoch 760: 1.02
+Current test error: 0.326458333333
+Current train error: 0.0686979166667
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 761: 1.07
+Time for epoch 762: 1.07
+Time for epoch 763: 1.07
+Time for epoch 764: 1.04
+Time for epoch 765: 1.06
+Current test error: 0.327291666667
+Current train error: 0.0745833333333
+Time for epoch 766: 1.08
+Time for epoch 767: 1.05
+Time for epoch 768: 1.02
+Time for epoch 769: 1.04
+Time for epoch 770: 1.04
+Current test error: 0.32625
+Current train error: 0.0663020833333
+Time for epoch 771: 1.04
+Time for epoch 772: 1.09
+Time for epoch 773: 0.95
+Time for epoch 774: 1.01
+Time for epoch 775: 1.04
+Current test error: 0.325416666667
+Current train error: 0.0705208333333
+Time for epoch 776: 1.04
+Time for epoch 777: 1.05
+Time for epoch 778: 1.08
+Time for epoch 779: 1.13
+Time for epoch 780: 1.08
+Current test error: 0.32625
+Current train error: 0.0664583333333
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 781: 1.00
+Time for epoch 782: 1.04
+Time for epoch 783: 1.10
+Time for epoch 784: 1.04
+Time for epoch 785: 1.04
+Current test error: 0.3325
+Current train error: 0.0931770833333
+Time for epoch 786: 1.06
+Time for epoch 787: 1.09
+Time for epoch 788: 1.02
+Time for epoch 789: 1.04
+Time for epoch 790: 1.04
+Current test error: 0.327291666667
+Current train error: 0.0507291666667
+Time for epoch 791: 1.07
+Time for epoch 792: 1.03
+Time for epoch 793: 1.01
+Time for epoch 794: 1.03
+Time for epoch 795: 1.05
+Current test error: 0.329166666667
+Current train error: 0.0725520833333
+Time for epoch 796: 1.01
+Time for epoch 797: 1.03
+Time for epoch 798: 0.98
+Time for epoch 799: 1.09
+Time for epoch 800: 1.07
+Current test error: 0.326041666667
+Current train error: 0.0643229166667
+Saving parameters....
+Saving complete. Took 0.01 seconds.
+Time for epoch 801: 1.09
+Time for epoch 802: 1.03
+Time for epoch 803: 1.07
+Time for epoch 804: 1.11
+Time for epoch 805: 1.07
+Current test error: 0.335
+Current train error: 0.0926041666667
+Time for epoch 806: 1.03
+Time for epoch 807: 1.08
+Time for epoch 808: 1.04
+Time for epoch 809: 1.04
+Time for epoch 810: 1.02
+Current test error: 0.329583333333
+Current train error: 0.07265625
+Time for epoch 811: 1.09
+Time for epoch 812: 1.06
+Time for epoch 813: 1.09
+Time for epoch 814: 1.02
+Time for epoch 815: 1.03
+Current test error: 0.33
+Current train error: 0.065625
+Time for epoch 816: 1.07
+Time for epoch 817: 1.02
+Time for epoch 818: 1.02
+Time for epoch 819: 1.05
+Time for epoch 820: 1.04
+Current test error: 0.330833333333
+Current train error: 0.0740104166667
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 821: 1.10
+Time for epoch 822: 1.08
+Time for epoch 823: 0.94
+Time for epoch 824: 1.09
+Time for epoch 825: 1.06
+Current test error: 0.333333333333
+Current train error: 0.0870833333333
+Time for epoch 826: 1.03
+Time for epoch 827: 1.04
+Time for epoch 828: 1.09
+Time for epoch 829: 1.08
+Time for epoch 830: 1.03
+Current test error: 0.337291666667
+Current train error: 0.0969270833333
+Time for epoch 831: 1.04
+Time for epoch 832: 1.10
+Time for epoch 833: 1.05
+Time for epoch 834: 1.02
+Time for epoch 835: 1.02
+Current test error: 0.331041666667
+Current train error: 0.0796354166667
+Time for epoch 836: 1.09
+Time for epoch 837: 1.03
+Time for epoch 838: 1.02
+Time for epoch 839: 1.04
+Time for epoch 840: 0.99
+Current test error: 0.344583333333
+Current train error: 0.118802083333
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 841: 1.08
+Time for epoch 842: 1.04
+Time for epoch 843: 1.02
+Time for epoch 844: 1.04
+Time for epoch 845: 1.05
+Current test error: 0.329166666667
+Current train error: 0.07359375
+Time for epoch 846: 1.34
+Time for epoch 847: 0.96
+Time for epoch 848: 0.85
+Time for epoch 849: 0.88
+Time for epoch 850: 0.86
+Current test error: 0.333125
+Current train error: 0.0842708333333
+Time for epoch 851: 0.90
+Time for epoch 852: 0.92
+Time for epoch 853: 0.92
+Time for epoch 854: 0.92
+Time for epoch 855: 0.95
+Current test error: 0.334583333333
+Current train error: 0.0825520833333
+Time for epoch 856: 1.03
+Time for epoch 857: 1.05
+Time for epoch 858: 1.04
+Time for epoch 859: 0.99
+Time for epoch 860: 1.01
+Current test error: 0.33625
+Current train error: 0.0861458333333
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 861: 1.14
+Time for epoch 862: 1.04
+Time for epoch 863: 1.02
+Time for epoch 864: 1.01
+Time for epoch 865: 1.00
+Current test error: 0.334583333333
+Current train error: 0.0872916666667
+Time for epoch 866: 1.01
+Time for epoch 867: 1.01
+Time for epoch 868: 1.00
+Time for epoch 869: 1.01
+Time for epoch 870: 1.08
+Current test error: 0.329583333333
+Current train error: 0.0668229166667
+Time for epoch 871: 1.02
+Time for epoch 872: 1.01
+Time for epoch 873: 1.09
+Time for epoch 874: 1.02
+Time for epoch 875: 1.03
+Current test error: 0.330833333333
+Current train error: 0.0677083333333
+Time for epoch 876: 1.09
+Time for epoch 877: 1.10
+Time for epoch 878: 1.09
+Time for epoch 879: 1.11
+Time for epoch 880: 1.09
+Current test error: 0.327291666667
+Current train error: 0.07125
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 881: 1.21
+Time for epoch 882: 1.13
+Time for epoch 883: 1.09
+Time for epoch 884: 1.10
+Time for epoch 885: 1.06
+Current test error: 0.341041666667
+Current train error: 0.103385416667
+Time for epoch 886: 1.12
+Time for epoch 887: 0.98
+Time for epoch 888: 1.00
+Time for epoch 889: 1.01
+Time for epoch 890: 1.07
+Current test error: 0.331458333333
+Current train error: 0.0788541666667
+Time for epoch 891: 1.03
+Time for epoch 892: 0.99
+Time for epoch 893: 0.91
+Time for epoch 894: 0.92
+Time for epoch 895: 0.91
+Current test error: 0.331875
+Current train error: 0.085625
+Time for epoch 896: 0.91
+Time for epoch 897: 0.92
+Time for epoch 898: 0.91
+Time for epoch 899: 0.92
+Time for epoch 900: 0.89
+Current test error: 0.327083333333
+Current train error: 0.0719791666667
+Saving parameters....
+Saving complete. Took 0.01 seconds.
+Time for epoch 901: 0.97
+Time for epoch 902: 0.93
+Time for epoch 903: 0.93
+Time for epoch 904: 0.99
+Time for epoch 905: 1.01
+Current test error: 0.335625
+Current train error: 0.0905729166667
+Time for epoch 906: 1.04
+Time for epoch 907: 1.02
+Time for epoch 908: 1.00
+Time for epoch 909: 1.04
+Time for epoch 910: 1.01
+Current test error: 0.324166666667
+Current train error: 0.0671875
+Time for epoch 911: 0.99
+Time for epoch 912: 1.00
+Time for epoch 913: 1.01
+Time for epoch 914: 1.05
+Time for epoch 915: 1.04
+Current test error: 0.327291666667
+Current train error: 0.05359375
+Time for epoch 916: 0.99
+Time for epoch 917: 1.05
+Time for epoch 918: 1.06
+Time for epoch 919: 1.02
+Time for epoch 920: 1.01
+Current test error: 0.329375
+Current train error: 0.0672395833333
+Saving parameters....
+Saving complete. Took 0.01 seconds.
+Time for epoch 921: 1.15
+Time for epoch 922: 1.04
+Time for epoch 923: 1.01
+Time for epoch 924: 0.95
+Time for epoch 925: 0.91
+Current test error: 0.338541666667
+Current train error: 0.095
+Time for epoch 926: 0.94
+Time for epoch 927: 1.16
+Time for epoch 928: 1.01
+Time for epoch 929: 1.42
+Time for epoch 930: 1.24
+Current test error: 0.329166666667
+Current train error: 0.0694791666667
+Time for epoch 931: 1.00
+Time for epoch 932: 1.07
+Time for epoch 933: 1.27
+Time for epoch 934: 1.07
+Time for epoch 935: 1.10
+Current test error: 0.333958333333
+Current train error: 0.0830729166667
+Time for epoch 936: 1.20
+Time for epoch 937: 1.43
+Time for epoch 938: 1.24
+Time for epoch 939: 1.17
+Time for epoch 940: 1.17
+Current test error: 0.341666666667
+Current train error: 0.0985416666667
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 941: 1.24
+Time for epoch 942: 1.22
+Time for epoch 943: 1.18
+Time for epoch 944: 1.16
+Time for epoch 945: 1.19
+Current test error: 0.339375
+Current train error: 0.0944270833333
+Time for epoch 946: 1.15
+Time for epoch 947: 1.18
+Time for epoch 948: 1.17
+Time for epoch 949: 1.03
+Time for epoch 950: 1.11
+Current test error: 0.333333333333
+Current train error: 0.08484375
+Time for epoch 951: 1.51
+Time for epoch 952: 1.17
+Time for epoch 953: 1.19
+Time for epoch 954: 1.15
+Time for epoch 955: 1.22
+Current test error: 0.325833333333
+Current train error: 0.0555729166667
+Time for epoch 956: 1.17
+Time for epoch 957: 1.13
+Time for epoch 958: 1.40
+Time for epoch 959: 1.29
+Time for epoch 960: 1.10
+Current test error: 0.329583333333
+Current train error: 0.0744270833333
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 961: 1.21
+Time for epoch 962: 1.15
+Time for epoch 963: 1.16
+Time for epoch 964: 1.19
+Time for epoch 965: 1.19
+Current test error: 0.326458333333
+Current train error: 0.0644270833333
+Time for epoch 966: 1.18
+Time for epoch 967: 1.19
+Time for epoch 968: 1.17
+Time for epoch 969: 1.16
+Time for epoch 970: 1.13
+Current test error: 0.334166666667
+Current train error: 0.0947395833333
+Time for epoch 971: 1.13
+Time for epoch 972: 1.22
+Time for epoch 973: 1.20
+Time for epoch 974: 1.06
+Time for epoch 975: 1.09
+Current test error: 0.3375
+Current train error: 0.0921875
+Time for epoch 976: 1.14
+Time for epoch 977: 1.11
+Time for epoch 978: 1.05
+Time for epoch 979: 1.15
+Time for epoch 980: 1.08
+Current test error: 0.335625
+Current train error: 0.0903125
+Saving parameters....
+Saving complete. Took 0.00 seconds.
+Time for epoch 981: 1.16
+Time for epoch 982: 1.11
+Time for epoch 983: 1.07
+Time for epoch 984: 1.07
+Time for epoch 985: 1.09
+Current test error: 0.329583333333
+Current train error: 0.0697395833333
+Time for epoch 986: 1.10
+Time for epoch 987: 1.11
+Time for epoch 988: 1.05
+Time for epoch 989: 1.05
+Time for epoch 990: 1.07
+Current test error: 0.337916666667
+Current train error: 0.0932291666667
+Time for epoch 991: 1.10
+Time for epoch 992: 1.07
+Time for epoch 993: 1.22
+Time for epoch 994: 1.24
+Time for epoch 995: 0.90
+Current test error: 0.330208333333
+Current train error: 0.0728125
+Time for epoch 996: 1.00
+Time for epoch 997: 1.00
+Time for epoch 998: 1.27
+Time for epoch 999: 1.02
