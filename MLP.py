@@ -64,9 +64,12 @@ class MLP(object):
         self.hiddenLayers = hiddenLayers 
         self.MLPoutput = T.nnet.softmax(self.hiddenLayers[-1].output)
         self.pred = T.argmax(self.MLPoutput, axis=1)
-        #self.L1 
-        #self.L2_sqr
- 
+        if len(self.hiddenLayers) > 2: 
+            print("Haven't implemented L1/L2 regularization yet") 
+        else:
+            self.L1 = T.sum(abs(self.hiddenLayers[0].W)) + T.sum(abs(self.hiddenLayers[1].W))
+            self.L2_sqr = T.sum(self.hiddenLayers[0].W**2) +T.sum(self.hiddenLayers[1].W**2)  
+      
     def save_params(self,filename,mode='pickle'):
         """
         Save model parameters. 

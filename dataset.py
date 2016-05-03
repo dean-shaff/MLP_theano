@@ -5,6 +5,7 @@ import theano
 #print("Took {:.2f} seconds to load theano".format(time.time() - t0))
 import h5py 
 import os
+import cPickle
 
 class Dataset(object):
 
@@ -17,7 +18,11 @@ class Dataset(object):
         kwargs:
             name: name of dataset (None)
         """
-        arrays = self.loadDataSet(filename) 
+        if "mnist" in filename:
+            print("Using MNIST dataset") 
+            arrays = self.loadmnist(filename)
+        else:
+            arrays = self.loadDataSet(filename) 
         self.train_x = arrays[0]
         self.train_y = arrays[1]
         self.test_x = arrays[2]
@@ -32,7 +37,31 @@ class Dataset(object):
         self.vec_size = self.train_x.get_value().shape[1]
 
     def reshuffle(self):
+        """
+        Reshuffle training and testing sets. 
+        """
         pass
+
+    def loadmnist(self,filename): 
+        """
+        MNIST is structured as follows:
+        (train, test, valid) 
+        """
+        print("Loading MNIST dataset...") 
+        t0 = time.time()  
+        with open(filename, 'r') as f:
+            arrays = cPickle.load(f)
+        print("Took {:.2f} to load dataset".format(time.time() - t0))
+        train = arrays[0]
+        test = arrays[1] 
+        train_x = theano.shared(np.asarray(train[0],dtype=float), borrow=True)
+        train_y = theano.shared(np.asarray(train[1],dtype=int), borrow=True)
+        test_x = theano.shared(np.asarray(test[0],dtype=float), borrow=True)
+        test_y = theano.shared(np.asarray(test[1],dtype=int), borrow=True)
+        #print(train_x.get_value().shape) 
+        #print(test_y.get_value().shape)
+        #print(test_y.get_value())
+        return (train_x, train_y, test_x, test_y)  
 
     def loadDataSet(self,filename):
         t0 = time.time() 
@@ -49,5 +78,7 @@ class Dataset(object):
 
 
 if __name__ == '__main__':
-    data_file = "dataFiles/datPS_10000_02-05_norm_by-wf_ignoreTop.hdf5"
-    dataset = Dataset(data_file) 
+    #data_file = "dataFiles/datPS_10000_02-05_norm_by-wf_ignoreTop.hdf5"
+    #dataset = Dataset(data_file) 
+    mnist_file = "dataFiles/mnist.pkl"
+    dataset = Dataset(mnist_file) 

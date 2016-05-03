@@ -20,14 +20,17 @@ class SGD(object):
         Compile testing and training functions.
         kwargs:
             lr: learning rate (0.001)
-            mb_size: minibatch_size (100) 
+            mb_size: minibatch_size (100)
+            L1_reg: L1 regilarization (0)
+            L2_reg: L2 regularization factor (0.0001)
         """ 
-        self.cost = self.model.negloglikelihood(y)
-        #self.cost = self.model.square_cost(y) 
-        self.errors = self.model.errors(y)  
         lr = kwargs.get('lr',0.001) 
         mb_size = kwargs.get('mb_size',100)
+        L1_reg = kwargs.get('L1_reg',0)
+        L2_reg = kwargs.get('L2_reg',0.0001)
         self.mb_size = mb_size 
+        self.cost = self.model.negloglikelihood(y) #+ L1_reg*self.model.L1 + L2_reg*self.model.L2_sqr
+        self.errors = self.model.errors(y)  
         print("Starting to compile theano functions. Could take a bit...") 
         t0 = time.time()
         index = T.lscalar() 
@@ -42,6 +45,7 @@ class SGD(object):
                 y: self.shared_train_y[index*mb_size: (index+1)*mb_size]
             }
         )
+        print("Done compiling training function") 
         self.feed_thru = theano.function(
             inputs = [index],
             outputs = self.model.hiddenLayers[-1].output,
@@ -50,7 +54,7 @@ class SGD(object):
                # y: self.shared_y[index*mb_size: (index+1)*mb_size]
             }
         )
-        
+        print("Done compiling feed through function") 
         self.test = theano.function(
             inputs = [index],
             outputs = self.errors,
@@ -120,13 +124,22 @@ class SGD(object):
 
     
 if __name__ == "__main__":
-    dataFile = "dataFiles/datPS_10000_02-05_norm_by-wf_ignoreTop.hdf5"
-    dataset = Dataset(dataFile)
+    #dataFile = "dataFiles/datPS_10000_02-05_norm_by-wf_ignoreTop.hdf5"
+    #dataset = Dataset(dataFile)
+    #x = T.matrix('x')
+    #y = T.lvector('y') 
+    #model = MLP(x, [1140,400,2],np.random.RandomState(1234))
+    #sgd = SGD(model,dataset)
+    #sgd.compileFunctions(x,y,lr=0.001,mb_size=1000) 
+    #sgd.trainModel(n_epochs=100)
+
+    mnist_file = "dataFiles/mnist.pkl"
+    dataset_mnist = Dataset(mnist_file) 
     x = T.matrix('x')
     y = T.lvector('y') 
-    model = MLP(x, [1140,400,2],np.random.RandomState(1234))
-    sgd = SGD(model,dataset)
-    sgd.compileFunctions(x,y,lr=0.001,mb_size=1000) 
+    model = MLP(x, [dataset_mnist.vec_size,500,10],np.random.RandomState(1234))
+    sgd = SGD(model,dataset_mnist)
+    sgd.compileFunctions(x,y,lr=0.01,mb_size=20) 
     sgd.trainModel(n_epochs=100)
          
             
