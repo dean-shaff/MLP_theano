@@ -52,6 +52,7 @@ class MLP(object):
             -dim: The dimensions of each of the layers in the NN 
             -rng: numpy random seed, for hidden layers
         """
+        self.dim = dim  
         self.input = input 
         h0 = HiddenLayer(self.input, dim[0], dim[1], rng,transfer_func)
         hiddenLayers = [h0]

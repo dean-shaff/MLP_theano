@@ -25,6 +25,7 @@ class SGD(object):
             L2_reg: L2 regularization factor (0.0001)
         """ 
         lr = kwargs.get('lr',0.001) 
+        self.lr = lr 
         mb_size = kwargs.get('mb_size',100)
         L1_reg = kwargs.get('L1_reg',0)
         L2_reg = kwargs.get('L2_reg',0.0001)
@@ -120,15 +121,16 @@ class SGD(object):
                 print("Current train error: {}".format(error_train/train_batches))
             
             if (epoch % save_rate == 0 and save):
-                self.model.save_params("modelFiles/model_epoch{}.hdf5".format(epoch),mode='hdf5')
+                cur_time = time.strftime("%d-%m")
+                self.model.save_params("modelFiles/model_epoch{}_mb{}_lr{}_h0{}_hin{}_{}.hdf5".format(epoch,self.mb_size,self.lr,self.model.dim[1],self.model.dim[0],cur_time),mode='hdf5')
 
     
 if __name__ == "__main__":
-    dataFile = "dataFiles/datPS_10000_02-05_norm_by-wf_ignoreTop.hdf5"
+    dataFile = "dataFiles/datPS_20000_04-05_norm_by-wf_ignoreTop.hdf5"
     dataset = Dataset(dataFile)
     x = T.matrix('x')
     y = T.lvector('y') 
-    model = MLP(x, [1140,500,2],np.random.RandomState(1234),transfer_func=T.nnet.relu)
+    model = MLP(x,[dataset.vec_size,500,2],np.random.RandomState(1234),transfer_func=T.nnet.relu)
     sgd = SGD(model,dataset)
     sgd.compileFunctions(x,y,lr=0.005,mb_size=20) 
     sgd.trainModel(n_epochs=1000)

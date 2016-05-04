@@ -6,6 +6,8 @@ import os
 from dataset import Dataset
 from MLP import MLP 
 import matplotlib.pyplot as plt 
+import seaborn as sns 
+import sklearn.metrics as metrics 
 
 class Sampler(object):
     
@@ -28,7 +30,8 @@ class Sampler(object):
         self.shared_train_y = dataset.train_y 
         self.shared_test_x = dataset.test_x
         self.shared_test_y = dataset.test_y 
-        self.model_files = model_files 
+        self.model_files = model_files
+        self.predicted = dict() 
     def compileFunctions(self,x,y):
 
         index = T.lscalar() 
@@ -39,25 +42,16 @@ class Sampler(object):
         self.feed_thru = theano.function(
             inputs=[x],
             outputs=self.model.MLPoutput,
-            #givens = {
-            #    x: self.shared_test_x
-            #}
         )
         self.test = theano.function(
             inputs=[x,y],
             outputs = self.errors,
-            #givens = {
-            #    x:self.shared_test_x,
-            #    y:self.shared_test_y
-            #}
         )
         print("Function compilation complete. Took {:.2f} seconds".format(time.time() -t0)) 
     
     def gen_output_distribution(self,**kwargs):
         """
         Generate output distributions for model files.
-        kwargs:
-            -plot: plot the output distributions (False) 
         """ 
         try:
             feed_thru = self.feed_thru
@@ -68,54 +62,78 @@ class Sampler(object):
             y = T.lvector('y') 
             self.compileFunctions(x,y) 
             feed_thru = self.feed_thru
-            test = self.test 
-        plot = kwargs.get('plot',False) 
-        signal = [] 
-        background = [] 
-        signal_train = [] 
-        background_train = [] 
-        errors_test = []
-        errors_train = []  
-        test_y, train_y = self.shared_test_y.get_value(), self.shared_train_y.get_value()
-        sig_loc = np.where(test_y == 1) 
-        back_loc = np.where(test_y == 0)
-        sig_loc_train = np.where(train_y == 1) 
-        back_loc_train = np.where(train_y == 0) 
-        for filename in self.model_files:
-            self.model.load_params(filename,mode='hdf5') 
-            sampled = feed_thru(self.shared_test_x.get_value())
-            sampled_train = feed_thru(self.shared_train_x.get_value()) 
-            error_test = test(self.shared_test_x.get_value(), self.shared_test_y.get_value())
-            error_train = test(self.shared_train_x.get_value(), self.shared_train_y.get_value())
-            errors_test.append(error_test) 
-            errors_train.append(error_train) 
-            signal.append(sampled[sig_loc]) 
-            background.append(sampled[back_loc])
-            signal_train.append(sampled_train[sig_loc_train]) 
-            background_train.append(sampled_train[back_loc_train]) 
-        if plot:
-            fig = plt.figure(figsize=(16,9)) 
-            ax = fig.add_subplot(111) 
-            for sig, back in zip(signal, background):
-                sig = sig[:,1]
-                back = back[:,1]
-                w_sig = np.ones_like(sig) / len(sig) 
-                w_back = np.ones_like(back) / len(back) 
-                ax.hist(sig,50, weights=w_sig,facecolor='r',alpha=1.0 )
-                ax.hist(back,50, weights=w_back,facecolor='k',alpha=0.5)
-                #ax.set_yscale('log') 
-            plt.show() 
-
-        return signal, background 
-         
+            test = self.test
  
+        def gen_sig_back(x,y):
+            """
+            x and y are the numpy arrays (not theano shared variables) corresponding to 
+            data and labels.
+            """
+            signal = [] 
+            background = [] 
+            errors = []
+            totals = [] #run the entire data set through 
+            sig_loc = y == 1
+            back_loc = y == 0 
+            for filename in self.model_files:
+                self.model.load_params(filename,mode='hdf5') 
+                sampled = feed_thru(x)
+                error = test(x,y)
+                errors.append(error) 
+                signal.append(sampled[sig_loc])
+                background.append(sampled[back_loc])
+                totals.append(sampled) 
+            return [signal,background,totals,errors,[y]]
+
+        test_y, train_y = self.shared_test_y.get_value(), self.shared_train_y.get_value()
+        test_x, train_x = self.shared_test_x.get_value(), self.shared_train_x.get_value() 
+        self.predicted['train'] = gen_sig_back(train_x, train_y) 
+        self.predicted['test'] = gen_sig_back(test_x, test_y)
+ 
+    def plot_distributions(self,which):
+        try:
+            output_list = self.predicted[which]
+        except KeyError:
+            self.gen_output_distribution()
+            output_list = self.predicted[which]
+        fig = plt.figure() 
+        fig1 = plt.figure() 
+        ax = fig.add_subplot(111) 
+        ax1 = fig1.add_subplot(111)
+        integrals = [] 
+        for sig, back, total,err,y in zip(*output_list):
+            sig = sig[:,0]
+            back = back[:,0]
+            tot = total[:,0]
+            w_sig = np.ones_like(sig) / len(sig) 
+            w_back = np.ones_like(back) / len(back) 
+            ax.hist(sig,50, weights=w_sig,facecolor='r',alpha=1.0,label='Signal')
+            ax.hist(back,50, weights=w_back,facecolor='k',alpha=0.35,label='Background')
+            fpr, tpr,_ = metrics.roc_curve(y, tot)
+            integral = np.dot(np.diff(tpr), fpr[:-1])  
+            integrals.append(integral) 
+            ax1.plot(tpr, fpr,lw=2,label="Integral Value: {:.2f}".format(integral))
+        ax.legend(fontsize=20)
+        ax.set_title("Output distributions for signal and background\nlearning rate: {}, hidden layer size: {}, minibatch size: {}, error {}".format(0.005,500,20,err),fontsize=20)  
+        ax1.set_title("ROC Curve" ,fontsize=20)
+        ax1.legend(fontsize=20) 
+        ax1.set_xlabel("True Positive Rate",fontsize=20) 
+        ax1.set_ylabel("False Positive Rate",fontsize=20) 
+        plt.tight_layout()
+            #ax.set_yscale('log')
+        plt.show() 
+ 
+             
 if __name__ == "__main__":
     dataFile = "dataFiles/datPS_10000_02-05_norm_by-wf_ignoreTop.hdf5"
     dataset = Dataset(dataFile)
     x = T.matrix('x')
     y = T.lvector('y')
-    model = MLP(x, [1140,200,2],np.random.RandomState(1234),transfer_func=T.nnet.relu)
-    model_files = ["modelFiles/model_epoch980.hdf5"]
+    model = MLP(x, [1140,500,2],np.random.RandomState(1234),transfer_func=T.nnet.relu)
+    #model_files = ["modelFiles/model_epoch980.hdf5",
+    model_files = ["modelFiles/model_epoch40_mb20_lr0.005_04-05.hdf5"]
     sampler  = Sampler(model,dataset,model_files)
     sampler.compileFunctions(x,y) 
-    sampler.gen_output_distribution(plot=True)  
+    #sampler.gen_output_distribution(plot=True)  
+    sampler.plot_distributions('test')
+     
