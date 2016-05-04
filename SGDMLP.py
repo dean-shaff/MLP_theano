@@ -84,6 +84,7 @@ class SGD(object):
         """
         n_epochs = kwargs.get('n_epochs',100)
         save_rate = kwargs.get('save_rate',20) 
+        test_rate = kwargs.get('test_rate',5) 
         try:
             trainer = self.train_model
             tester = self.test
@@ -99,11 +100,11 @@ class SGD(object):
             save = False
         else:
             save = True  
-        test_rate = kwargs.get('test_rate',5) 
         train_batches = self.dataset.trainset_size // self.mb_size   
         test_batches = self.dataset.testset_size // self.mb_size   
         print("Beginning to train MLP") 
-        t0 = time.time() 
+        t0 = time.time()
+        lowest_error = 0.6 # if its ever this high kill me 
         for epoch in xrange(n_epochs):
             t1 = time.time() 
             for mb_index in xrange(train_batches):
@@ -116,24 +117,30 @@ class SGD(object):
                 for test_index in xrange(test_batches):
                     error_test +=  tester(test_index)
                 for train_index in xrange(train_batches):
-                    error_train += tester_on_train(train_index) 
-                print("Current test error: {}".format(error_test/test_batches))
-                print("Current train error: {}".format(error_train/train_batches))
-            
-            if (epoch % save_rate == 0 and save):
-                cur_time = time.strftime("%d-%m")
-                self.model.save_params("modelFiles/model_epoch{}_mb{}_lr{}_h0{}_hin{}_{}.hdf5".format(epoch,self.mb_size,self.lr,self.model.dim[1],self.model.dim[0],cur_time),mode='hdf5')
+                    error_train += tester_on_train(train_index)
+                error_test /= test_batches
+                error_train /= train_batches 
+                print("Current test error: {}".format(error_test))
+                print("Current train error: {}\n\n".format(error_train))
+                if error_test < lowest_error:
+                    lowest_error = error_test         
+                    if ( save):
+                        cur_time = time.strftime("%d-%m")
+                        self.model.save_params("modelFiles/modelBEST_epoch_{}_mb_{}_lr_{}_h0_{}_hin_{}_{}.hdf5".format(epoch,self.mb_size,self.lr,self.model.dim[1],self.model.dim[0],cur_time),mode='hdf5')
+            #if (epoch % save_rate == 0 and save):
+            #    cur_time = time.strftime("%d-%m")
+            #    self.model.save_params("modelFiles/model_epoch{}_mb{}_lr{}_h0{}_hin{}_{}.hdf5".format(epoch,self.mb_size,self.lr,self.model.dim[1],self.model.dim[0],cur_time),mode='hdf5')
 
     
 if __name__ == "__main__":
-    dataFile = "dataFiles/datPS_20000_04-05_norm_by-wf_ignoreTop.hdf5"
+    dataFile = "dataFiles/datPS_20000_04-05_norm_by-wf_bottom.hdf5"
     dataset = Dataset(dataFile)
     x = T.matrix('x')
     y = T.lvector('y') 
-    model = MLP(x,[dataset.vec_size,500,2],np.random.RandomState(1234),transfer_func=T.nnet.relu)
+    model = MLP(x,[dataset.vec_size,300,2],np.random.RandomState(1234),transfer_func=T.nnet.relu)
     sgd = SGD(model,dataset)
-    sgd.compileFunctions(x,y,lr=0.005,mb_size=20) 
-    sgd.trainModel(n_epochs=1000)
+    sgd.compileFunctions(x,y,lr=0.005,mb_size=50) 
+    sgd.trainModel(n_epochs=1000, test_rate=2)
 
     #mnist_file = "dataFiles/mnist.pkl"
     #dataset_mnist = Dataset(mnist_file) 

@@ -8,10 +8,11 @@ from MLP import MLP
 import matplotlib.pyplot as plt 
 import seaborn as sns 
 import sklearn.metrics as metrics 
+import re 
 
 class Sampler(object):
     
-    def __init__(self, model, dataset, model_files):
+    def __init__(self,x,dataset, model_file):
         """
         Sampling works as follows.
         You feed it a model and a dataset, and model_files. 
@@ -24,14 +25,18 @@ class Sampler(object):
             dataset Dataset object
             model_files: list of files corresponding to saved models  
         """ 
-        self.model = model
         self.dataset = dataset 
         self.shared_train_x = dataset.train_x
         self.shared_train_y = dataset.train_y 
         self.shared_test_x = dataset.test_x
         self.shared_test_y = dataset.test_y 
-        self.model_files = model_files
-        self.predicted = dict() 
+        self.model_file = model_file
+        self.param = self.detect_params(self.model_file)
+        print(self.param)  
+        mlp = MLP(x,[self.param['hin'],self.param['h0'],2],np.random.RandomState(1234), transfer_func=T.nnet.relu)
+        mlp.load_params(self.model_file,mode='hdf5')
+        self.model = mlp   
+        self.predicted = dict()
     def compileFunctions(self,x,y):
 
         index = T.lscalar() 
@@ -69,21 +74,14 @@ class Sampler(object):
             x and y are the numpy arrays (not theano shared variables) corresponding to 
             data and labels.
             """
-            signal = [] 
-            background = [] 
-            errors = []
-            totals = [] #run the entire data set through 
             sig_loc = y == 1
             back_loc = y == 0 
-            for filename in self.model_files:
-                self.model.load_params(filename,mode='hdf5') 
-                sampled = feed_thru(x)
-                error = test(x,y)
-                errors.append(error) 
-                signal.append(sampled[sig_loc])
-                background.append(sampled[back_loc])
-                totals.append(sampled) 
-            return [signal,background,totals,errors,[y]]
+            sampled = feed_thru(x)
+            error = test(x,y)
+            signal = sampled[sig_loc]
+            background = sampled[back_loc]
+            total = sampled 
+            return [signal,background,total,error,y]
 
         test_y, train_y = self.shared_test_y.get_value(), self.shared_train_y.get_value()
         test_x, train_x = self.shared_test_x.get_value(), self.shared_train_x.get_value() 
@@ -96,43 +94,59 @@ class Sampler(object):
         except KeyError:
             self.gen_output_distribution()
             output_list = self.predicted[which]
-        fig = plt.figure() 
-        fig1 = plt.figure() 
+        fig = plt.figure(figsize=(16,9)) 
+        fig1 = plt.figure(figsize=(16,9)) 
         ax = fig.add_subplot(111) 
         ax1 = fig1.add_subplot(111)
-        integrals = [] 
-        for sig, back, total,err,y in zip(*output_list):
-            sig = sig[:,0]
-            back = back[:,0]
-            tot = total[:,0]
-            w_sig = np.ones_like(sig) / len(sig) 
-            w_back = np.ones_like(back) / len(back) 
-            ax.hist(sig,50, weights=w_sig,facecolor='r',alpha=1.0,label='Signal')
-            ax.hist(back,50, weights=w_back,facecolor='k',alpha=0.35,label='Background')
-            fpr, tpr,_ = metrics.roc_curve(y, tot)
-            integral = np.dot(np.diff(tpr), fpr[:-1])  
-            integrals.append(integral) 
-            ax1.plot(tpr, fpr,lw=2,label="Integral Value: {:.2f}".format(integral))
+        sig, back, total,err,y = output_list
+        
+        sig = sig[:,0]
+        back = back[:,0]
+        tot = total[:,0]
+        w_sig = np.ones_like(sig) / len(sig) 
+        w_back = np.ones_like(back) / len(back) 
+        ax.hist(sig,50, weights=w_sig,facecolor='r',alpha=1.0,label='Signal')
+        ax.hist(back,50, weights=w_back,facecolor='k',alpha=0.35,label='Background')
+        fpr, tpr,_ = metrics.roc_curve(y, tot)
+        integral = np.dot(np.diff(tpr), fpr[:-1])  
+        ax1.plot(tpr, fpr,lw=2,label="Integral Value: {:.2f}".format(integral))
         ax.legend(fontsize=20)
-        ax.set_title("Output distributions for signal and background\nlearning rate: {}, hidden layer size: {}, minibatch size: {}, error {}".format(0.005,500,20,err),fontsize=20)  
+        ax.set_title("Output distributions for signal and background\nlearning rate: {}, hidden layer size: {}, minibatch size: {}, error {:.3f}".format(self.param['lr'],self.param['h0'],self.param['mb'],float(err)),fontsize=20) 
         ax1.set_title("ROC Curve" ,fontsize=20)
-        ax1.legend(fontsize=20) 
+        ax1.legend(fontsize=20,loc=4) 
         ax1.set_xlabel("True Positive Rate",fontsize=20) 
         ax1.set_ylabel("False Positive Rate",fontsize=20) 
         plt.tight_layout()
             #ax.set_yscale('log')
         plt.show() 
+
+    def detect_params(self,model_file):
+        name = os.path.splitext(model_file)[0]
+        names = name.split("_")
+        lr = float([names[i+1] for i in xrange(len(names)) if names[i]=='lr'][0]) 
+        mb = int([names[i+1] for i in xrange(len(names)) if names[i]=='mb'][0])
+        h0 = int([names[i+1] for i in xrange(len(names)) if names[i]=='h0'][0])
+        hin = int([names[i+1] for i in xrange(len(names)) if names[i]=='hin'][0])
+        return {'lr':lr,
+                'mb': mb,
+                'h0': h0,
+                'hin': hin}
+
  
-             
 if __name__ == "__main__":
-    dataFile = "dataFiles/datPS_10000_02-05_norm_by-wf_ignoreTop.hdf5"
+    #dataFile = "dataFiles/datPS_10000_02-05_norm_by-wf_ignoreTop.hdf5"
+    #dataFile = "dataFiles/datPS_20000_04-05_norm_by-wf_ignoreTop.hdf5"
+    dataFile = "dataFiles/datPS_20000_04-05_norm_by-wf_bottom.hdf5"
     dataset = Dataset(dataFile)
     x = T.matrix('x')
     y = T.lvector('y')
-    model = MLP(x, [1140,500,2],np.random.RandomState(1234),transfer_func=T.nnet.relu)
+    model_files = "modelFiles/modelBEST_epoch_102_mb_50_lr_0.005_h0_100_hin_1140_04-05.hdf5"
+    model_files = "modelFiles/modelBEST_epoch_466_mb_50_lr_0.005_h0_300_hin_1140_04-05.hdf5"
+    #model = MLP(x,[1140,100,2],np.random.RandomState(1234),transfer_func=T.nnet.relu)
     #model_files = ["modelFiles/model_epoch980.hdf5",
-    model_files = ["modelFiles/model_epoch40_mb20_lr0.005_04-05.hdf5"]
-    sampler  = Sampler(model,dataset,model_files)
+    #model_files = ["modelFiles/model_epoch40_mb20_lr0.005_04-05.hdf5"]
+    #model_files = ["modelFiles/model_epoch200_mb20_lr0.005_h0500_hin1140_04-05.hdf5"]
+    sampler  = Sampler(x,dataset,model_files)
     sampler.compileFunctions(x,y) 
     #sampler.gen_output_distribution(plot=True)  
     sampler.plot_distributions('test')
