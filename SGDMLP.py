@@ -4,6 +4,7 @@ import theano.tensor as T
 from MLP import MLP, HiddenLayer 
 from dataset import Dataset
 import time
+
 class SGD(object):
 
     def __init__(self, model,dataset):
@@ -142,13 +143,14 @@ class SGD(object):
 if __name__ == "__main__":
     #dataFile = "dataFiles/datPS_20000_04-05_norm_by-wf_bottom.hdf5"
     #dataFile = "dataFiles/datPS_10000_05-05_norm_by-chan_bottom.hdf5"
-    dataFile = "dataFiles/datPS_36000_05-05_norm_by-wf_bottom.hdf5"
+    #dataFile = "dataFiles/datPS_36000_05-05_norm_by-wf_bottom.hdf5"
+    dataFile = "dataFiles/datPS_24000_05-05_norm_by-wf_top.hdf5"
     dataset = Dataset(dataFile)
     x = T.matrix('x')
     y = T.lvector('y')
     model = MLP(x,[dataset.vec_size,300,2],np.random.RandomState(1234),transfer_func=T.nnet.relu)
     sgd = SGD(model,dataset)
-    sgd.compileFunctions(x,y,lr=0.003,momentum=0.01,mb_size=200) 
+    sgd.compileFunctions(x,y,lr=0.005,momentum=0,mb_size=20) 
     sgd.trainModel(n_epochs=200,test_rate=2)
     
 
