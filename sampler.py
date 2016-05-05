@@ -12,7 +12,7 @@ import re
 
 class Sampler(object):
     
-    def __init__(self,x,dataset, model_file):
+    def __init__(self,x, model_file):
         """
         Sampling works as follows.
         You feed it a model and a dataset, and model_files. 
@@ -25,15 +25,14 @@ class Sampler(object):
             dataset Dataset object
             model_files: list of files corresponding to saved models  
         """ 
-        self.dataset = dataset 
         self.shared_train_x = dataset.train_x
         self.shared_train_y = dataset.train_y 
         self.shared_test_x = dataset.test_x
         self.shared_test_y = dataset.test_y 
         self.model_file = model_file
         self.param = self.detect_params(self.model_file)
-        print(self.param)  
-        mlp = MLP(x,[self.param['hin'],self.param['h0'],2],np.random.RandomState(1234), transfer_func=T.nnet.relu)
+        self.dataset = Dataset(self.param['dataset'])
+        mlp = MLP(x,[self.param['h0'],self.param['h1'],2],np.random.RandomState(1234), transfer_func=T.nnet.relu)
         mlp.load_params(self.model_file,mode='hdf5')
         self.model = mlp   
         self.predicted = dict()
@@ -121,27 +120,36 @@ class Sampler(object):
         plt.show() 
 
     def detect_params(self,model_file):
-        name = os.path.splitext(model_file)[0]
-        names = name.split("_")
-        lr = float([names[i+1] for i in xrange(len(names)) if names[i]=='lr'][0]) 
-        mb = int([names[i+1] for i in xrange(len(names)) if names[i]=='mb'][0])
-        h0 = int([names[i+1] for i in xrange(len(names)) if names[i]=='h0'][0])
-        hin = int([names[i+1] for i in xrange(len(names)) if names[i]=='hin'][0])
-        return {'lr':lr,
-                'mb': mb,
-                'h0': h0,
-                'hin': hin}
+        #name = os.path.splitext(model_file)[0]
+        #names = name.split("_")
+        #lr = float([names[i+1] for i in xrange(len(names)) if names[i]=='lr'][0]) 
+        #mb = int([names[i+1] for i in xrange(len(names)) if names[i]=='mb'][0])
+        #h0 = int([names[i+1] for i in xrange(len(names)) if names[i]=='h0'][0])
+        #hin = int([names[i+1] for i in xrange(len(names)) if names[i]=='hin'][0])
+        #return {'lr':lr,
+        #        'mb': mb,
+        #        'h0': h0,
+        #        'hin': hin}
+        f = h5py.File(model_file)
+        params = {}
+        grp = f["/"]
+        for key in grp.attrs.keys():
+            params[key] = grp.attrs[key]
+        return params
+        
 
  
 if __name__ == "__main__":
     #dataFile = "dataFiles/datPS_10000_02-05_norm_by-wf_ignoreTop.hdf5"
     #dataFile = "dataFiles/datPS_20000_04-05_norm_by-wf_ignoreTop.hdf5"
     dataFile = "dataFiles/datPS_20000_04-05_norm_by-wf_bottom.hdf5"
+    dataFile = "dataFiles/datPS_10000_05-05_norm_by-chan_bottom.hdf5"
     dataset = Dataset(dataFile)
     x = T.matrix('x')
     y = T.lvector('y')
     model_files = "modelFiles/modelBEST_epoch_102_mb_50_lr_0.005_h0_100_hin_1140_04-05.hdf5"
     model_files = "modelFiles/modelBEST_epoch_466_mb_50_lr_0.005_h0_300_hin_1140_04-05.hdf5"
+    model_files = "modelFiles/modelBEST_epoch_194_mb_20_lr_0.001_h0_500_hin_1140_05-05.hdf5"
     #model = MLP(x,[1140,100,2],np.random.RandomState(1234),transfer_func=T.nnet.relu)
     #model_files = ["modelFiles/model_epoch980.hdf5",
     #model_files = ["modelFiles/model_epoch40_mb20_lr0.005_04-05.hdf5"]

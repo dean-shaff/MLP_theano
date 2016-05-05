@@ -36,12 +36,42 @@ class Dataset(object):
             self.name = name 
         self.vec_size = self.train_x.get_value().shape[1]
 
+    def __getitem__(self,name):
+        """
+        Get one of the hdf5 data set attributes
+        """
+        if ".pkl" in self.filename:
+            print("This method doesn't work for pickle files") 
+            return None
+        try:
+            val = self.dataset.attrs[name]
+            return val 
+        except KeyError:
+            print("Dataset doesn't have that attribute") 
+            print("Here's a list of available attributes:")
+            for key in self.dataset.attrs.keys():
+                print(key)
+            return None 
+        except AttributeError:
+            print("Dataset hasn't been initialized yet!") 
+
     def reshuffle(self):
         """
         Reshuffle training and testing sets. 
         """
-        pass
-
+        dat = self.dataset[:,:]         
+        np.random.shuffle(dat) 
+        train = dat[:int(0.8*dat.shape[0])]
+        test = dat[int(0.8*dat.shape[0]):] 
+        train_x = theano.shared(train[:,1:], borrow=True)
+        train_y = theano.shared(train[:,0].astype(int),borrow=True)
+        test_x = theano.shared(test[:,1:],borrow=True)
+        test_y = theano.shared(test[:,0].astype(int),borrow=True) 
+        self.train_x = train_x
+        self.train_y = train_y
+        self.test_x = test_x
+        self.test_y = test_y
+ 
     def loadmnist(self,filename): 
         """
         MNIST is structured as follows:
@@ -67,8 +97,11 @@ class Dataset(object):
         t0 = time.time() 
         print("Loading data set...") 
         f = h5py.File(filename,'r') 
-        train = f["train"][:,:]
-        test = f["test"][:,:]
+        self.dataset = f['waveforms']
+        dat = self.dataset[:,:]
+        np.random.shuffle(dat) 
+        train = dat[:int(0.8*dat.shape[0])]
+        test = dat[int(0.8*dat.shape[0]):] 
         train_x = theano.shared(train[:,1:], borrow=True)
         train_y = theano.shared(train[:,0].astype(int),borrow=True)
         test_x = theano.shared(test[:,1:],borrow=True)

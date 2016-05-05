@@ -71,15 +71,24 @@ class MLP(object):
             self.L1 = T.sum(abs(self.hiddenLayers[0].W)) + T.sum(abs(self.hiddenLayers[1].W))
             self.L2_sqr = T.sum(self.hiddenLayers[0].W**2) +T.sum(self.hiddenLayers[1].W**2)  
       
-    def save_params(self,filename,mode='pickle'):
+    def save_params(self,filename,**kwargs):
         """
-        Save model parameters. 
+        Save model parameters. Can save meta data about SGD parameters. 
         args:
             filename: where to save the file 
         kwargs:
             mode: 'pickle' or 'hdf5'
+            lr: the learning rate of SGD 
+            mb: minibatch size 
+            epoch: The saved epoch number
+            dataset: The name of the dataset used for training  
         """
         print("Saving parameters....")
+        mode = kwargs.get("mode","hdf5")
+        lr = kwargs.get("lr","")
+        mb = kwargs.get("mb","") 
+        epoch = kwargs.get("epoch","")  
+        dataset = kwargs.get("dataset","") 
         t0 = time.time() 
         params = [param.get_value() for param in self.params]  
         if mode == 'pickle':
@@ -87,6 +96,11 @@ class MLP(object):
                 pickle.dump(params,f)
         elif mode == 'hdf5':
             f = h5py.File(filename,"w") 
+            grp = f["/"]
+            keys = ['lr','mb','epoch','dataset','h0','h1']
+            vals = [lr, mb, epoch, dataset,self.dim[0],self.dim[1]]
+            for i in xrange(len(keys)):
+                grp.attrs[keys[i]] = vals[i]
             for i in xrange(len(self.hiddenLayers)):
                 f.create_dataset("w{}".format(i), data=params[2*i])
                 f.create_dataset("b{}".format(i), data=params[2*i + 1]) 
