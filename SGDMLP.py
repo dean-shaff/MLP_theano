@@ -27,6 +27,7 @@ class SGD(object):
         self.lr = lr 
         mb_size = kwargs.get('mb_size',100)
         momentum = kwargs.get('momentum',0.9)
+        self.momentum = momentum
         #L1_reg = kwargs.get('L1_reg',0)
         #L2_reg = kwargs.get('L2_reg',0.0001)
         self.mb_size = mb_size 
@@ -130,9 +131,9 @@ class SGD(object):
                 print("Current train error: {}\n\n".format(error_train))
                 if error_test < lowest_error:
                     lowest_error = error_test         
-                    if ( save):
+                    if (save):
                         cur_time = time.strftime("%d-%m")
-                        self.model.save_params("modelFiles/modelBEST_mb_{}_lr_{}_h0_{}_hin_{}_{}.hdf5".format(self.mb_size,self.lr,self.model.dim[1],self.model.dim[0],cur_time),mode='hdf5',lr=self.lr, mb=self.mb_size, epoch=epoch,dataset=self.dataset.filename)
+                        self.model.save_params("modelFiles/modelBEST_mb_{}_lr_{}_mom_{}_h0_{}_hin_{}_{}.hdf5".format(self.mb_size,self.lr,self.momentum,self.model.dim[1],self.model.dim[0],cur_time),mode='hdf5',lr=self.lr, mb=self.mb_size,momentum=self.momentum, epoch=epoch,dataset=self.dataset.filename)
             #if (epoch % save_rate == 0 and save):
             #    cur_time = time.strftime("%d-%m")
             #    self.model.save_params("modelFiles/model_epoch{}_mb{}_lr{}_h0{}_hin{}_{}.hdf5".format(epoch,self.mb_size,self.lr,self.model.dim[1],self.model.dim[0],cur_time),mode='hdf5')
@@ -144,11 +145,11 @@ if __name__ == "__main__":
     dataFile = "dataFiles/datPS_36000_05-05_norm_by-wf_bottom.hdf5"
     dataset = Dataset(dataFile)
     x = T.matrix('x')
-    y = T.lvector('y') 
+    y = T.lvector('y')
     model = MLP(x,[dataset.vec_size,300,2],np.random.RandomState(1234),transfer_func=T.nnet.relu)
     sgd = SGD(model,dataset)
-    sgd.compileFunctions(x,y,lr=0.001,momentum=0.9,mb_size=50) 
-    sgd.trainModel(n_epochs=1000,test_rate=2)
+    sgd.compileFunctions(x,y,lr=0.003,momentum=0.01,mb_size=200) 
+    sgd.trainModel(n_epochs=200,test_rate=2)
     
 
     #mnist_file = "dataFiles/mnist.pkl"

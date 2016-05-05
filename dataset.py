@@ -99,7 +99,7 @@ class Dataset(object):
         f = h5py.File(filename,'r') 
         self.dataset = f['waveforms']
         dat = self.dataset[:,:]
-        np.random.shuffle(dat) 
+        #np.random.shuffle(dat) 
         train = dat[:int(0.8*dat.shape[0])]
         test = dat[int(0.8*dat.shape[0]):] 
         train_x = theano.shared(train[:,1:], borrow=True)

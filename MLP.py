@@ -80,6 +80,7 @@ class MLP(object):
             mode: 'pickle' or 'hdf5'
             lr: the learning rate of SGD 
             mb: minibatch size 
+            momentum: momentum factor for SGD 
             epoch: The saved epoch number
             dataset: The name of the dataset used for training  
         """
@@ -89,6 +90,7 @@ class MLP(object):
         mb = kwargs.get("mb","") 
         epoch = kwargs.get("epoch","")  
         dataset = kwargs.get("dataset","") 
+        momentum = kwargs.get("momentum","") 
         t0 = time.time() 
         params = [param.get_value() for param in self.params]  
         if mode == 'pickle':
@@ -97,8 +99,8 @@ class MLP(object):
         elif mode == 'hdf5':
             f = h5py.File(filename,"w") 
             grp = f["/"]
-            keys = ['lr','mb','epoch','dataset','h0','h1']
-            vals = [lr, mb, epoch, dataset,self.dim[0],self.dim[1]]
+            keys = ['lr','mb','momentum','epoch','dataset','h0','h1']
+            vals = [lr, mb,momentum,epoch, dataset,self.dim[0],self.dim[1]]
             for i in xrange(len(keys)):
                 grp.attrs[keys[i]] = vals[i]
             for i in xrange(len(self.hiddenLayers)):

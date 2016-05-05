@@ -9,6 +9,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns 
 import sklearn.metrics as metrics 
 import re 
+import h5py
+import argparse 
+
+def gen_parser():
+    parser = argparse.ArgumentParser(description="Sample from a trained MLP")
+    parser.add_argument("-mf","--modelfile",action="store",dest="mf",
+                        help="Specify full path to model file",required = True)
+    return parser.parse_args() 
 
 class Sampler(object):
     
@@ -25,13 +33,13 @@ class Sampler(object):
             dataset Dataset object
             model_files: list of files corresponding to saved models  
         """ 
-        self.shared_train_x = dataset.train_x
-        self.shared_train_y = dataset.train_y 
-        self.shared_test_x = dataset.test_x
-        self.shared_test_y = dataset.test_y 
         self.model_file = model_file
         self.param = self.detect_params(self.model_file)
         self.dataset = Dataset(self.param['dataset'])
+        self.shared_train_x = self.dataset.train_x
+        self.shared_train_y = self.dataset.train_y 
+        self.shared_test_x = self.dataset.test_x
+        self.shared_test_y = self.dataset.test_y 
         mlp = MLP(x,[self.param['h0'],self.param['h1'],2],np.random.RandomState(1234), transfer_func=T.nnet.relu)
         mlp.load_params(self.model_file,mode='hdf5')
         self.model = mlp   
@@ -135,6 +143,8 @@ class Sampler(object):
         grp = f["/"]
         for key in grp.attrs.keys():
             params[key] = grp.attrs[key]
+        f.close() 
+        print(params) 
         return params
         
 
@@ -144,17 +154,19 @@ if __name__ == "__main__":
     #dataFile = "dataFiles/datPS_20000_04-05_norm_by-wf_ignoreTop.hdf5"
     dataFile = "dataFiles/datPS_20000_04-05_norm_by-wf_bottom.hdf5"
     dataFile = "dataFiles/datPS_10000_05-05_norm_by-chan_bottom.hdf5"
-    dataset = Dataset(dataFile)
+    #dataset = Dataset(dataFile)
     x = T.matrix('x')
     y = T.lvector('y')
     model_files = "modelFiles/modelBEST_epoch_102_mb_50_lr_0.005_h0_100_hin_1140_04-05.hdf5"
     model_files = "modelFiles/modelBEST_epoch_466_mb_50_lr_0.005_h0_300_hin_1140_04-05.hdf5"
     model_files = "modelFiles/modelBEST_epoch_194_mb_20_lr_0.001_h0_500_hin_1140_05-05.hdf5"
+    modelFile = "modelFiles/modelBEST_mb_50_lr_0.003_h0_300_hin_1140_05-05.hdf5"
+    result = gen_parser() 
     #model = MLP(x,[1140,100,2],np.random.RandomState(1234),transfer_func=T.nnet.relu)
     #model_files = ["modelFiles/model_epoch980.hdf5",
     #model_files = ["modelFiles/model_epoch40_mb20_lr0.005_04-05.hdf5"]
     #model_files = ["modelFiles/model_epoch200_mb20_lr0.005_h0500_hin1140_04-05.hdf5"]
-    sampler  = Sampler(x,dataset,model_files)
+    sampler  = Sampler(x,result.mf)
     sampler.compileFunctions(x,y) 
     #sampler.gen_output_distribution(plot=True)  
     sampler.plot_distributions('test')
