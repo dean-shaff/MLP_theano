@@ -12,10 +12,22 @@ import re
 import h5py
 import argparse 
 
+real_names = {
+    'by-wf':'Waveform approach',
+    'by-chan':'Channel approach',
+    'all':'All PMT criterion',
+    'top':'Top PMT criterion',
+    'bottom': 'Bottom PMT criterion',
+    '12back10sig': 'run 12 as background, run 10 as signal'
+}
+
+
 def gen_parser():
     parser = argparse.ArgumentParser(description="Sample from a trained MLP")
-    parser.add_argument("-mf","--modelfile",action="store",dest="mf",
-                        help="Specify full path to model file",required = True)
+    parser.add_argument("-mf","--modelfiles",action="store",dest="mf",nargs="+",
+                        help="Specify full path to model files",required = True)
+    results = parser.parse_args()
+    print(results.mf) 
     return parser.parse_args() 
 
 class Sampler(object):
@@ -96,16 +108,12 @@ class Sampler(object):
         self.predicted['train'] = gen_sig_back(train_x, train_y) 
         self.predicted['test'] = gen_sig_back(test_x, test_y)
  
-    def plot_distributions(self,which):
+    def plot_distributions(self,which,ax,ax1):
         try:
             output_list = self.predicted[which]
         except KeyError:
             self.gen_output_distribution()
             output_list = self.predicted[which]
-        fig = plt.figure(figsize=(16,9)) 
-        fig1 = plt.figure(figsize=(16,9)) 
-        ax = fig.add_subplot(111) 
-        ax1 = fig1.add_subplot(111)
         sig, back, total,err,y = output_list
         
         sig = sig[:,0]
@@ -117,16 +125,15 @@ class Sampler(object):
         ax.hist(back,50, weights=w_back,facecolor='k',alpha=0.35,label='Background')
         fpr, tpr,_ = metrics.roc_curve(y, tot)
         integral = np.dot(np.diff(tpr), fpr[:-1])  
-        ax1.plot(tpr, fpr,lw=2,label="Integral Value: {:.2f}".format(integral))
+        ax1.plot(tpr, fpr,lw=2,label="{}, {}, Integral Value: {:.2f}".format(real_names[self.dataset['approach']], real_names[self.dataset['criterion']],integral))
         ax.legend(fontsize=20)
-        ax.set_title("Output distributions for signal and background\nlearning rate: {}, hidden layer size: {}, minibatch size: {}, error {:.3f}".format(self.param['lr'],self.param['h0'],self.param['mb'],float(err)),fontsize=20) 
-        ax1.set_title("ROC Curve" ,fontsize=20)
+        ax.set_title("{}, {},  error {:.3f}".format(real_names[self.dataset['approach']], real_names[self.dataset['criterion']],float(err)),fontsize=14) 
+        ax1.set_title("ROC Curves" ,fontsize=20)
         ax1.legend(fontsize=20,loc=4) 
         ax1.set_xlabel("True Positive Rate",fontsize=20) 
         ax1.set_ylabel("False Positive Rate",fontsize=20) 
-        plt.tight_layout()
             #ax.set_yscale('log')
-        plt.show() 
+        #plt.show() 
 
     def detect_params(self,model_file):
         f = h5py.File(model_file)
@@ -146,24 +153,22 @@ class Sampler(object):
 
  
 if __name__ == "__main__":
-    #dataFile = "dataFiles/datPS_10000_02-05_norm_by-wf_ignoreTop.hdf5"
-    #dataFile = "dataFiles/datPS_20000_04-05_norm_by-wf_ignoreTop.hdf5"
-    dataFile = "dataFiles/datPS_20000_04-05_norm_by-wf_bottom.hdf5"
-    dataFile = "dataFiles/datPS_10000_05-05_norm_by-chan_bottom.hdf5"
-    #dataset = Dataset(dataFile)
     x = T.matrix('x')
     y = T.lvector('y')
-    model_files = "modelFiles/modelBEST_epoch_102_mb_50_lr_0.005_h0_100_hin_1140_04-05.hdf5"
-    model_files = "modelFiles/modelBEST_epoch_466_mb_50_lr_0.005_h0_300_hin_1140_04-05.hdf5"
-    model_files = "modelFiles/modelBEST_epoch_194_mb_20_lr_0.001_h0_500_hin_1140_05-05.hdf5"
-    modelFile = "modelFiles/modelBEST_mb_50_lr_0.003_h0_300_hin_1140_05-05.hdf5"
-    result = gen_parser() 
-    #model = MLP(x,[1140,100,2],np.random.RandomState(1234),transfer_func=T.nnet.relu)
-    #model_files = ["modelFiles/model_epoch980.hdf5",
-    #model_files = ["modelFiles/model_epoch40_mb20_lr0.005_04-05.hdf5"]
-    #model_files = ["modelFiles/model_epoch200_mb20_lr0.005_h0500_hin1140_04-05.hdf5"]
-    sampler  = Sampler(x,result.mf)
-    sampler.compileFunctions(x,y) 
-    #sampler.gen_output_distribution(plot=True)  
-    sampler.plot_distributions('test')
-     
+    #model_files = "modelFiles/modelBEST_epoch_102_mb_50_lr_0.005_h0_100_hin_1140_04-05.hdf5"
+    #model_files = "modelFiles/modelBEST_epoch_466_mb_50_lr_0.005_h0_300_hin_1140_04-05.hdf5"
+    #model_files = "modelFiles/modelBEST_epoch_194_mb_20_lr_0.001_h0_500_hin_1140_05-05.hdf5"
+    #modelFile = "modelFiles/modelBEST_mb_50_lr_0.003_h0_300_hin_1140_05-05.hdf5"
+    result = gen_parser()
+    fig = plt.figure(figsize=(9,4*len(result.mf)))
+    fig1 = plt.figure(figsize=(16,9))
+    ax1 = fig1.add_subplot(111) 
+    for i,mf in enumerate(result.mf):
+        ax = fig.add_subplot(int(str(len(result.mf))+"1"+str(i+1)))
+        sampler  = Sampler(x,mf)
+        sampler.compileFunctions(x,y) 
+        sampler.plot_distributions('test',ax,ax1)
+    fig.suptitle("Output distributions for Signal and Background",fontsize=20) 
+    fig.set_tight_layout({'rect':[0,0.03,1,0.95]}) 
+    fig.savefig("outputdistr.png")
+    fig1.savefig("roc.png") 

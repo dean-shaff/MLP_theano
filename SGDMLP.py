@@ -4,6 +4,7 @@ import theano.tensor as T
 from MLP import MLP, HiddenLayer 
 from dataset import Dataset
 import time
+import multiprocessing 
 
 class SGD(object):
 
@@ -110,7 +111,11 @@ class SGD(object):
         test_batches = self.dataset.testset_size // self.mb_size   
         print("Beginning to train MLP") 
         t0 = time.time()
-        lowest_error = 0.6 # if its ever this high kill me 
+        lowest_error = 0.6 # if its ever this high kill me
+        prev_err = tester(self.shared_test_x.get_value(),self.shared_test_y.get_value())
+        error_test = prev_err
+        print("Initial test error {}".format(prev_err))  
+        time_since_save = 0 
         for epoch in xrange(n_epochs):
             t1 = time.time() 
             for mb_index in xrange(train_batches):
@@ -118,40 +123,56 @@ class SGD(object):
                 cur_cost = trainer(mb_index,self.lr,self.mb_size,self.momentum)             
             print("Time for epoch {}: {:.2f}".format(epoch,time.time() - t1))
             if (epoch % test_rate == 0):
-                #error_test = 0
-                #error_train = 0 
-                #for test_index in xrange(test_batches):
-                #    error_test +=  tester(test_index)
-                #for train_index in xrange(train_batches):
-                #    error_train += tester_on_train(train_index)
+                prev_err = error_test
+                #now update error_test 
                 error_test = tester(self.shared_test_x.get_value(),self.shared_test_y.get_value()) 
                 error_train = tester(self.shared_train_x.get_value(), self.shared_train_y.get_value()) 
-                #error_test /= test_batches
-                #error_train /= train_batches 
                 print("Current test error: {}".format(error_test))
                 print("Current train error: {}".format(error_train))
-                if error_test < lowest_error:
-                    lowest_error = error_test         
+                print("Change in error from last epoch: {}".format(error_test - prev_err))
+                print(error_test - lowest_error) 
+                if (error_test - prev_err > 0.005 and epoch > 20 or time_since_save > 5): 
+                    print("Network isn't converging. Exiting!")
+                    break 
+                if (error_test - lowest_error < -0.01):
+                    lowest_error = error_test  
+                    time_since_save = 0       
                     if (save):
                         cur_time = time.strftime("%d-%m")
-                        self.model.save_params("modelFiles/modelBEST_mb_{}_lr_{}_mom_{}_h0_{}_hin_{}_{}.hdf5".format(self.mb_size,self.lr,self.momentum,self.model.dim[1],self.model.dim[0],cur_time),self.dataset.indexing,mode='hdf5',lr=self.lr, mb=self.mb_size,momentum=self.momentum, epoch=epoch,dataset=self.dataset.filename)
+                        self.model.save_params("modelFiles/modelBEST_mb_{}_lr_{}_mom_{}_h0_{}_hin_{}_{}_{}.hdf5".format(self.mb_size,self.lr,self.momentum,self.model.dim[1],self.model.dim[0],cur_time,self.dataset['criterion']),self.dataset.indexing,mode='hdf5',lr=self.lr, mb=self.mb_size,momentum=self.momentum, epoch=epoch,dataset=self.dataset.filename)
                         print("\n")
+                elif (error_test - lowest_error > -0.005):
+                    time_since_save += 1 
         self.dataset.f.close() 
-         
+
+def train_MLP(*args):
+    datafile, h1, nepochs, test_rate, lr, momentum, mb_size = args 
+    dataset = Dataset(datafile) 
+    x = T.matrix('x') 
+    y = T.lvector('y') 
+    model = MLP(x,[dataset.vec_size,h1,2],np.random.RandomState(1234),transfer_func=T.nnet.relu)
+    sgd = SGD(model,dataset)
+    sgd.compileFunctions(x,y)
+    sgd.trainModel(n_epochs=nepochs,test_rate=test_rate,lr=lr,momentum=momentum,mb_size=mb_size) 
+     
     
 if __name__ == "__main__":
     #dataFile = "dataFiles/datPS_20000_04-05_norm_by-wf_bottom.hdf5"
     #dataFile = "dataFiles/datPS_10000_05-05_norm_by-chan_bottom.hdf5"
-    dataFile = "dataFiles/datPS_36000_06-05_norm_by-wf_top.hdf5"
+    dataFiletop = "dataFiles/datPS_36000_06-05_norm_by-wf_top.hdf5"
+    dataFileall = "dataFiles/datPS_36000_06-05_norm_by-wf_all.hdf5"
+    dataFilebot = "dataFiles/datPS_36000_05-05_norm_by-wf_bottom.hdf5"
+    dataFile1012 = "dataFiles/datPS_36000_06-05_norm_by-wf_12back10sig.hdf5"
     #dataFile = "dataFiles/datPS_24000_05-05_norm_by-wf_top.hdf5"
-    dataset = Dataset(dataFile)
-    dataset.reshuffle() 
-    x = T.matrix('x')
-    y = T.lvector('y')
-    model = MLP(x,[dataset.vec_size,300,2],np.random.RandomState(1234),transfer_func=T.nnet.relu)
-    sgd = SGD(model,dataset)
-    sgd.compileFunctions(x,y)
-    sgd.trainModel(n_epochs=200,test_rate=2,lr=0.005,momentum=0.9,mb_size=20) 
+    for datafile in [dataFiletop, dataFilebot, dataFileall, dataFile1012]:
+        dataset = Dataset(datafile)
+        #dataset.reshuffle() 
+        x = T.matrix('x')
+        y = T.lvector('y')
+        model = MLP(x,[dataset.vec_size,300,2],np.random.RandomState(1234),transfer_func=T.nnet.relu)
+        sgd = SGD(model,dataset)
+        sgd.compileFunctions(x,y)
+        sgd.trainModel(n_epochs=200,test_rate=2,lr=0.005,momentum=0.0,mb_size=50) 
 
     
 
