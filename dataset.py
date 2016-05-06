@@ -57,6 +57,29 @@ class Dataset(object):
         except AttributeError:
             print("Dataset hasn't been initialized yet!") 
 
+    def set_indexing(self,indexing):
+        """
+        Set indexing, so that saved model files can use same training and testing samples.
+        args:
+            -indexing: an array of indexes. 
+        """
+        if indexing == None:
+            print("Defaulting to indexing already loaded in dataset") 
+        else:
+            dat = self.dataset[...] 
+            train_ind = indexing[:int(0.6*dat.shape[0])]
+            test_ind = indexing[int(0.6*dat.shape[0]):]
+            train = dat[train_ind]
+            test = dat[test_ind]
+            train_x = theano.shared(train[:,1:], borrow=True)
+            train_y = theano.shared(train[:,0].astype(int),borrow=True)
+            test_x = theano.shared(test[:,1:],borrow=True)
+            test_y = theano.shared(test[:,0].astype(int),borrow=True) 
+            self.train_x = train_x
+            self.train_y = train_y
+            self.test_x = test_x
+            self.test_y = test_y
+
     def reshuffle(self):
         """
         Reshuffle training and testing sets. 
@@ -73,6 +96,7 @@ class Dataset(object):
         self.indexingset = self.f['indexing']
         dat = self.dataset[...] 
         indexing = self.indexingset[...]
+        self.indexing = indexing
         train_ind = indexing[:int(0.6*dat.shape[0])]
         test_ind = indexing[int(0.6*dat.shape[0]):]
         train = dat[train_ind]

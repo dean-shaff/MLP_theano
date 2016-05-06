@@ -36,6 +36,7 @@ class Sampler(object):
         self.model_file = model_file
         self.param = self.detect_params(self.model_file)
         self.dataset = Dataset(self.param['dataset'])
+        self.dataset.set_indexing(self.param['indexing'])
         self.shared_train_x = self.dataset.train_x
         self.shared_train_y = self.dataset.train_y 
         self.shared_test_x = self.dataset.test_x
@@ -128,21 +129,16 @@ class Sampler(object):
         plt.show() 
 
     def detect_params(self,model_file):
-        #name = os.path.splitext(model_file)[0]
-        #names = name.split("_")
-        #lr = float([names[i+1] for i in xrange(len(names)) if names[i]=='lr'][0]) 
-        #mb = int([names[i+1] for i in xrange(len(names)) if names[i]=='mb'][0])
-        #h0 = int([names[i+1] for i in xrange(len(names)) if names[i]=='h0'][0])
-        #hin = int([names[i+1] for i in xrange(len(names)) if names[i]=='hin'][0])
-        #return {'lr':lr,
-        #        'mb': mb,
-        #        'h0': h0,
-        #        'hin': hin}
         f = h5py.File(model_file)
         params = {}
         grp = f["/"]
         for key in grp.attrs.keys():
             params[key] = grp.attrs[key]
+        try:
+            params['indexing'] = f['indexing'][...] 
+        except KeyError:
+            print("Using older model file -- doesn't have indexing yet.") 
+            params['indexing'] = None 
         f.close() 
         print(params) 
         return params

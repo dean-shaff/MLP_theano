@@ -134,16 +134,18 @@ class SGD(object):
                     lowest_error = error_test         
                     if (save):
                         cur_time = time.strftime("%d-%m")
-                        self.model.save_params("modelFiles/modelBEST_mb_{}_lr_{}_mom_{}_h0_{}_hin_{}_{}.hdf5".format(self.mb_size,self.lr,self.momentum,self.model.dim[1],self.model.dim[0],cur_time),mode='hdf5',lr=self.lr, mb=self.mb_size,momentum=self.momentum, epoch=epoch,dataset=self.dataset.filename)
-                        print("\n") 
+                        self.model.save_params("modelFiles/modelBEST_mb_{}_lr_{}_mom_{}_h0_{}_hin_{}_{}.hdf5".format(self.mb_size,self.lr,self.momentum,self.model.dim[1],self.model.dim[0],cur_time),self.dataset.indexing,mode='hdf5',lr=self.lr, mb=self.mb_size,momentum=self.momentum, epoch=epoch,dataset=self.dataset.filename)
+                        print("\n")
+        self.dataset.f.close() 
+         
     
 if __name__ == "__main__":
     #dataFile = "dataFiles/datPS_20000_04-05_norm_by-wf_bottom.hdf5"
     #dataFile = "dataFiles/datPS_10000_05-05_norm_by-chan_bottom.hdf5"
-    #dataFile = "dataFiles/datPS_36000_05-05_norm_by-wf_bottom.hdf5"
-    dataFile = "dataFiles/datPS_24000_05-05_norm_by-wf_top.hdf5"
+    dataFile = "dataFiles/datPS_36000_06-05_norm_by-wf_top.hdf5"
+    #dataFile = "dataFiles/datPS_24000_05-05_norm_by-wf_top.hdf5"
     dataset = Dataset(dataFile)
-    #dataset.reshuffle() 
+    dataset.reshuffle() 
     x = T.matrix('x')
     y = T.lvector('y')
     model = MLP(x,[dataset.vec_size,300,2],np.random.RandomState(1234),transfer_func=T.nnet.relu)

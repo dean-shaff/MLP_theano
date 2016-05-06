@@ -71,11 +71,12 @@ class MLP(object):
             self.L1 = T.sum(abs(self.hiddenLayers[0].W)) + T.sum(abs(self.hiddenLayers[1].W))
             self.L2_sqr = T.sum(self.hiddenLayers[0].W**2) +T.sum(self.hiddenLayers[1].W**2)  
       
-    def save_params(self,filename,**kwargs):
+    def save_params(self,filename,indexing,**kwargs):
         """
         Save model parameters. Can save meta data about SGD parameters. 
         args:
             filename: where to save the file 
+            indexing: the current indexing in the dataset to use 
         kwargs:
             mode: 'pickle' or 'hdf5'
             lr: the learning rate of SGD 
@@ -105,7 +106,8 @@ class MLP(object):
                 grp.attrs[keys[i]] = vals[i]
             for i in xrange(len(self.hiddenLayers)):
                 f.create_dataset("w{}".format(i), data=params[2*i])
-                f.create_dataset("b{}".format(i), data=params[2*i + 1]) 
+                f.create_dataset("b{}".format(i), data=params[2*i + 1])
+            f.create_dataset('indexing',data=indexing) 
             f.close() 
         print("Saving complete. Took {:.2f} seconds.".format(time.time() - t0))
 

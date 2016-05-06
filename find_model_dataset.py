@@ -1,10 +1,11 @@
 import h5py
 import argparse
 
-def find_dataset(modelfile):
+def find_dataset_indexing(modelfile):
     f = h5py.File(modelfile,'r') 
     grp = f["/"]
-    return grp.attrs['dataset']
+    indexing = f['indexing'][...]
+    return grp.attrs['dataset'], indexing
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Figure out a model's dataset") 
@@ -12,5 +13,5 @@ if __name__ == '__main__':
                         help="Specify full path to model file", required=True) 
     results = parser.parse_args()
     mf = results.mf
-    print(find_dataset(mf))
+    print(find_dataset_indexing(mf))
 
