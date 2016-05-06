@@ -6,6 +6,7 @@ import theano
 import h5py 
 import os
 import cPickle
+import shutil
 
 class Dataset(object):
 
@@ -59,8 +60,15 @@ class Dataset(object):
         """
         Reshuffle training and testing sets. 
         """
+        print("Reshuffling dataset")
+        t0 = time.time()  
         dat = self.dataset[:,:]         
         np.random.shuffle(dat) 
+        self.dataset[...] = dat 
+        #now close and reopen file 
+        self.f.close() 
+        self.f = h5py.File(self.filename,'r+')
+        self.dataset = self.f['waveforms']  
         train = dat[:int(0.8*dat.shape[0])]
         test = dat[int(0.8*dat.shape[0]):] 
         train_x = theano.shared(train[:,1:], borrow=True)
@@ -71,6 +79,7 @@ class Dataset(object):
         self.train_y = train_y
         self.test_x = test_x
         self.test_y = test_y
+        print("Completed reshuffling. Took {} seconds".format(time.time() - t0))
  
     def loadmnist(self,filename): 
         """
@@ -96,7 +105,8 @@ class Dataset(object):
     def loadDataSet(self,filename):
         t0 = time.time() 
         print("Loading data set...") 
-        f = h5py.File(filename,'r') 
+        f = h5py.File(filename,'r+') 
+        self.f = f 
         self.dataset = f['waveforms']
         dat = self.dataset[:,:]
         #np.random.shuffle(dat) 
