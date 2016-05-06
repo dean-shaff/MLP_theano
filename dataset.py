@@ -28,6 +28,7 @@ class Dataset(object):
         self.train_y = arrays[1]
         self.test_x = arrays[2]
         self.test_y = arrays[3]
+        self.indexing = arrays[4]
         self.trainset_size = self.train_x.get_value().shape[0]
         self.testset_size = self.test_y.get_value().shape[0]
         self.filename = filename
@@ -62,15 +63,20 @@ class Dataset(object):
         """
         print("Reshuffling dataset")
         t0 = time.time()  
-        dat = self.dataset[:,:]         
-        np.random.shuffle(dat) 
-        self.dataset[...] = dat 
+        indexing = self.indexingset[...] 
+        np.random.shuffle(indexing)  
+        self.indexingset[...] = indexing 
         #now close and reopen file 
         self.f.close() 
         self.f = h5py.File(self.filename,'r+')
-        self.dataset = self.f['waveforms']  
-        train = dat[:int(0.8*dat.shape[0])]
-        test = dat[int(0.8*dat.shape[0]):] 
+        self.dataset = self.f['waveforms'] 
+        self.indexingset = self.f['indexing']
+        dat = self.dataset[...] 
+        indexing = self.indexingset[...]
+        train_ind = indexing[:int(0.6*dat.shape[0])]
+        test_ind = indexing[int(0.6*dat.shape[0]):]
+        train = dat[train_ind]
+        test = dat[test_ind] 
         train_x = theano.shared(train[:,1:], borrow=True)
         train_y = theano.shared(train[:,0].astype(int),borrow=True)
         test_x = theano.shared(test[:,1:],borrow=True)
@@ -108,16 +114,24 @@ class Dataset(object):
         f = h5py.File(filename,'r+') 
         self.f = f 
         self.dataset = f['waveforms']
+        try:
+            self.indexingset = f["indexing"]
+        except KeyError:
+            f.create_dataset("indexing",data=np.arange(self.dataset[...].shape[0],dtype=int))
+            self.indexingset= f["indexing"] 
+        indexing = self.indexingset[...]
         dat = self.dataset[:,:]
+        train_ind = indexing[:int(0.6*dat.shape[0])]
+        test_ind = indexing[int(0.6*dat.shape[0]):] 
         #np.random.shuffle(dat) 
-        train = dat[:int(0.8*dat.shape[0])]
-        test = dat[int(0.8*dat.shape[0]):] 
+        train = dat[train_ind]
+        test = dat[test_ind] 
         train_x = theano.shared(train[:,1:], borrow=True)
         train_y = theano.shared(train[:,0].astype(int),borrow=True)
         test_x = theano.shared(test[:,1:],borrow=True)
         test_y = theano.shared(test[:,0].astype(int),borrow=True)
         print("Dataset loaded. Took {:.2f} seconds".format(time.time() - t0))
-        return (train_x, train_y, test_x, test_y)
+        return (train_x, train_y, test_x, test_y,indexing)
 
 
 if __name__ == '__main__':
