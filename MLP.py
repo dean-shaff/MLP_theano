@@ -65,7 +65,7 @@ class MLP(object):
         self.hiddenLayers = hiddenLayers 
         self.MLPoutput = T.nnet.softmax(self.hiddenLayers[-1].output)
         self.pred = T.argmax(self.MLPoutput, axis=1)
-        if len(self.hiddenLayers) > 2: 
+        if len(self.hiddenLayers) >= 2: 
             print("Haven't implemented L1/L2 regularization yet") 
         else:
             self.L1 = T.sum(abs(self.hiddenLayers[0].W)) + T.sum(abs(self.hiddenLayers[1].W))

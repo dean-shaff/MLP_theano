@@ -29,6 +29,9 @@ class Dataset(object):
         self.test_x = arrays[2]
         self.test_y = arrays[3]
         self.indexing = arrays[4]
+        if len(arrays) > 5:
+            self.train_labels = arrays[5] 
+            self.test_labels = arrays[6] 
         self.trainset_size = self.train_x.get_value().shape[0]
         self.testset_size = self.test_y.get_value().shape[0]
         self.filename = filename
@@ -83,6 +86,7 @@ class Dataset(object):
     def reshuffle(self):
         """
         Reshuffle training and testing sets. 
+        ***NOT IMPLEMENTED FOR LABELED DATASETS***
         """
         print("Reshuffling dataset")
         t0 = time.time()  
@@ -139,6 +143,13 @@ class Dataset(object):
         self.f = f 
         self.dataset = f['waveforms']
         try:
+            self.labelset = f['labels'] 
+            labels = self.labelset[...] 
+        except KeyError:
+            self.labelset = None
+            labels = None  
+            print("You're trying to load a dataset that doesn't have labels") 
+        try:
             self.indexingset = f["indexing"]
         except KeyError:
             f.create_dataset("indexing",data=np.arange(self.dataset[...].shape[0],dtype=int))
@@ -146,8 +157,7 @@ class Dataset(object):
         indexing = self.indexingset[...]
         dat = self.dataset[:,:]
         train_ind = indexing[:int(0.6*dat.shape[0])]
-        test_ind = indexing[int(0.6*dat.shape[0]):] 
-        #np.random.shuffle(dat) 
+        test_ind = indexing[int(0.6*dat.shape[0]):]
         train = dat[train_ind]
         test = dat[test_ind] 
         train_x = theano.shared(train[:,1:], borrow=True)
@@ -155,7 +165,14 @@ class Dataset(object):
         test_x = theano.shared(test[:,1:],borrow=True)
         test_y = theano.shared(test[:,0].astype(int),borrow=True)
         print("Dataset loaded. Took {:.2f} seconds".format(time.time() - t0))
-        return (train_x, train_y, test_x, test_y,indexing)
+        if self.labelset:
+            train_labels = labels[train_ind]
+            test_labels = labels[test_ind]
+            train_labels = theano.shared(train_labels.astype(int), borrow=True) 
+            test_labels = theano.shared(test_labels.astype(int), borrow=True)  
+            return (train_x, train_y, test_x, test_y,indexing, train_labels,test_labels)
+        else:
+            return (train_x, train_y, test_x, test_y,indexing)
 
 
 if __name__ == '__main__':

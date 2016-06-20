@@ -139,7 +139,12 @@ class SGD(object):
                     time_since_save = 0       
                     if (save):
                         cur_time = time.strftime("%d-%m")
-                        self.model.save_params("modelFiles/modelBEST_mb_{}_lr_{}_mom_{}_h0_{}_hin_{}_{}_{}.hdf5".format(self.mb_size,self.lr,self.momentum,self.model.dim[1],self.model.dim[0],cur_time,self.dataset['criterion']),self.dataset.indexing,mode='hdf5',lr=self.lr, mb=self.mb_size,momentum=self.momentum, epoch=epoch,dataset=self.dataset.filename)
+                        #print(type(self.dataset.indexing)) 
+                        #print(type(self.dataset.filename)) 
+                        self.model.save_params("modelFiles/modelBEST_mb_{}_lr_{}_mom_{}_h0_{}_hin_{}_{}_{}.hdf5".format(self.mb_size,self.lr,self.momentum,self.model.dim[1],self.model.dim[0],cur_time,self.dataset['criterion']),
+                                            self.dataset.indexing,mode='hdf5',lr=self.lr, 
+                                            mb=self.mb_size,momentum=self.momentum, 
+                                            epoch=epoch,dataset=str(self.dataset.filename))
                         print("\n")
                 elif (error_test - lowest_error > -0.005):
                     time_since_save += 1 
@@ -159,12 +164,14 @@ def train_MLP(*args):
 if __name__ == "__main__":
     #dataFile = "dataFiles/datPS_20000_04-05_norm_by-wf_bottom.hdf5"
     #dataFile = "dataFiles/datPS_10000_05-05_norm_by-chan_bottom.hdf5"
-    dataFiletop = "dataFiles/datPS_36000_06-05_norm_by-wf_top.hdf5"
+#    dataFiletop = "dataFiles/datPS_36000_06-05_norm_by-wf_top.hdf5"
+#    dataFiletop = 'dataFiles/datPS_36000_01-06_norm_by-wf_top.hdf5'
     dataFileall = "dataFiles/datPS_36000_06-05_norm_by-wf_all.hdf5"
+    dataFileall = 'dataFiles/datPS_24000_20-06_norm_by-wf_all.hdf5'
     dataFilebot = "dataFiles/datPS_36000_05-05_norm_by-wf_bottom.hdf5"
     dataFile1012 = "dataFiles/datPS_36000_06-05_norm_by-wf_12back10sig.hdf5"
     #dataFile = "dataFiles/datPS_24000_05-05_norm_by-wf_top.hdf5"
-    for datafile in [dataFiletop, dataFilebot, dataFileall, dataFile1012]:
+    for datafile in [dataFileall]:#, dataFilebot, dataFileall, dataFile1012]:
         dataset = Dataset(datafile)
         #dataset.reshuffle() 
         x = T.matrix('x')
@@ -173,19 +180,4 @@ if __name__ == "__main__":
         sgd = SGD(model,dataset)
         sgd.compileFunctions(x,y)
         sgd.trainModel(n_epochs=200,test_rate=2,lr=0.005,momentum=0.0,mb_size=50) 
-
-    
-
-    #mnist_file = "dataFiles/mnist.pkl"
-    #dataset_mnist = Dataset(mnist_file) 
-    #x = T.matrix('x')
-    #y = T.lvector('y') 
-    #model = MLP(x, [dataset_mnist.vec_size,500,10],np.random.RandomState(1234))
-    #sgd = SGD(model,dataset_mnist)
-    #sgd.compileFunctions(x,y,lr=0.01,mb_size=20) 
-    #sgd.trainModel(n_epochs=100)
-         
-            
-     
-
 

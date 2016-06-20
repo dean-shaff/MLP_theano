@@ -7,7 +7,7 @@ from dataset import Dataset
 from MLP import MLP 
 import matplotlib.pyplot as plt 
 import seaborn as sns 
-import sklearn.metrics as metrics 
+#import sklearn.metrics as metrics 
 import re 
 import h5py
 import argparse 
@@ -52,12 +52,23 @@ class Sampler(object):
         self.shared_train_x = self.dataset.train_x
         self.shared_train_y = self.dataset.train_y 
         self.shared_test_x = self.dataset.test_x
-        self.shared_test_y = self.dataset.test_y 
+        self.shared_test_y = self.dataset.test_y
+        try:
+            self.train_labels = self.dataset.train_labels
+            self.test_labels = self.dataset.test_labels
+        except AttributeError:
+            print("You're used a dataset without labels. You won't be able to call gen_labeled_outputs")  
         mlp = MLP(x,[self.param['h0'],self.param['h1'],2],np.random.RandomState(1234), transfer_func=T.nnet.relu)
         mlp.load_params(self.model_file,mode='hdf5')
         self.model = mlp   
         self.predicted = dict()
+
     def compileFunctions(self,x,y):
+        """
+        Compile Theano functions.
+        test -- get the error of a certain segment of the dataset 
+        feed_thru -- feed a dataset (or a segment thereof) through the MLP, to generate predictions. 
+        """
 
         index = T.lscalar() 
         self.errors = self.model.errors(y) 
@@ -73,6 +84,46 @@ class Sampler(object):
             outputs = self.errors,
         )
         print("Function compilation complete. Took {:.2f} seconds".format(time.time() -t0)) 
+   
+    def gen_labeled_outputs(self, save=True):
+        """
+        Generate a correspondance between dataset labels and MLP output. 
+        kwargs:
+            save: Save labels, signal or background category and MLP output value to a file 
+        """
+        t0 = time.time()
+        cur_time = time.strftime("%d-%m")  
+        try:
+            feed_thru = self.feed_thru
+        except AttributeError:
+            print("You didn't compile relevanet theano functions yet. Doing it now...") 
+            x = T.matrix('x') 
+            y = T.lvector('y') 
+            self.compileFunctions(x,y)
+            feed_thru = self.feed_thru
+        try:
+            train_labels = self.train_labels.get_value() 
+            test_labels = self.test_labels.get_value() 
+        except AttributeError:
+            print("The dataset you're using doesn't have labels.") 
+            return  
+        
+        train_output = feed_thru(self.shared_train_x.get_value())[:,0]
+        test_output = feed_thru(self.shared_test_x.get_value())[:,0]
+        f = h5py.File("labeled_output_{}.hdf5".format(cur_time),"w")
+        grpmain = f["/"] 
+        grpmain.attrs['modelfile'] = self.model_file 
+        grptrain = f.create_group('train') 
+        grptest = f.create_group('test') 
+        grptrain.create_dataset('labels',data=train_labels) 
+        grptrain.create_dataset('output',data=train_output) 
+        grptrain.create_dataset('category',data=self.shared_train_y.get_value()) 
+         
+        grptest.create_dataset('labels',data=test_labels) 
+        grptest.create_dataset('output',data=test_output) 
+        grptest.create_dataset('category',data=self.shared_test_y.get_value())
+        f.close()  
+        print("Time generating labeled output: {:.2f} seconds".format(time.time() - t0))
     
     def gen_output_distribution(self,**kwargs):
         """
@@ -149,7 +200,12 @@ class Sampler(object):
         f.close() 
         print(params) 
         return params
-        
+
+    @staticmethod(wf_file, score_file):
+        """
+        Generate a correspondance between waveforms and MLP output score  
+        """    
+    
 
  
 if __name__ == "__main__":
@@ -167,8 +223,9 @@ if __name__ == "__main__":
         ax = fig.add_subplot(int(str(len(result.mf))+"1"+str(i+1)))
         sampler  = Sampler(x,mf)
         sampler.compileFunctions(x,y) 
-        sampler.plot_distributions('test',ax,ax1)
-    fig.suptitle("Output distributions for Signal and Background",fontsize=20) 
-    fig.set_tight_layout({'rect':[0,0.03,1,0.95]}) 
-    fig.savefig("outputdistr.png")
-    fig1.savefig("roc.png") 
+        sampler.gen_labeled_outputs(save=True) 
+        #sampler.plot_distributions('test',ax,ax1)
+    #fig.suptitle("Output distributions for Signal and Background",fontsize=20) 
+    #fig.set_tight_layout({'rect':[0,0.03,1,0.95]}) 
+    #fig.savefig("outputdistr.png")
+    #fig1.savefig("roc.png") 
