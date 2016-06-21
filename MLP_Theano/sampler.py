@@ -11,7 +11,7 @@ try:
     import seaborn as sns 
 except ImportError:
     print("You won't be able to use seaborn's styling") 
-#import sklearn.metrics as metrics 
+import sklearn.metrics as metrics 
 import re 
 import h5py
 import argparse 
@@ -124,7 +124,7 @@ class Sampler(object):
         
         train_output = feed_thru(self.shared_train_x.get_value())[:,0]
         test_output = feed_thru(self.shared_test_x.get_value())[:,0]
-        f = h5py.File("labeled_output_{}.hdf5".format(cur_time),"w")
+        f = h5py.File("labeled_output_{}_{}.hdf5".format(self.dataset['criterion'],cur_time),"w")
         grpmain = f["/"] 
         grpmain.attrs['modelfile'] = self.model_file 
         grptrain = f.create_group('train') 
@@ -181,22 +181,22 @@ class Sampler(object):
             output_list = self.predicted[which]
         sig, back, total,err,y = output_list
         
-        sig = sig[:,0]
-        back = back[:,0]
-        tot = total[:,0]
+        sig = sig[:,1]
+        back = back[:,1]
+        tot = total[:,1]
         w_sig = np.ones_like(sig) / len(sig) 
         w_back = np.ones_like(back) / len(back) 
         ax.hist(sig,50, weights=w_sig,facecolor='r',alpha=1.0,label='Signal')
         ax.hist(back,50, weights=w_back,facecolor='k',alpha=0.35,label='Background')
         fpr, tpr,_ = metrics.roc_curve(y, tot)
-        integral = np.dot(np.diff(tpr), fpr[:-1])  
-        ax1.plot(tpr, fpr,lw=2,label="{}, {}, Integral Value: {:.2f}".format(real_names[self.dataset['approach']], real_names[self.dataset['criterion']],integral))
+        integral = np.dot(np.diff(tpr), 1-fpr[:-1])  
+        ax1.plot(tpr, 1-fpr,lw=2,label="{}, {}, Integral Value: {:.2f}".format(real_names[self.dataset['approach']], real_names[self.dataset['criterion']],integral))
         ax.legend(fontsize=20)
         ax.set_title("{}, {},  error {:.3f}".format(real_names[self.dataset['approach']], real_names[self.dataset['criterion']],float(err)),fontsize=14) 
-        ax1.set_title("ROC Curves" ,fontsize=20)
+        ax1.set_title("MLP ROC Curves" ,fontsize=20)
         ax1.legend(fontsize=20,loc=4) 
-        ax1.set_xlabel("True Positive Rate",fontsize=20) 
-        ax1.set_ylabel("False Positive Rate",fontsize=20) 
+        ax1.set_xlabel("Signal Efficiency",fontsize=20) 
+        ax1.set_ylabel("Background Rejection",fontsize=20) 
             #ax.set_yscale('log')
         #plt.show() 
 
@@ -216,7 +216,7 @@ class Sampler(object):
         return params
 
     @staticmethod
-    def view_waveforms(wf_file, score_file, max_wf = 100 ):
+    def view_waveforms(wf_file, score_file, max_wf = 100, generator=False ):
         """
         Generate a correspondance between waveforms and MLP output score  
         """    
@@ -228,21 +228,25 @@ class Sampler(object):
         cat_name = {'0':'background',
                     '1':'signal'} 
         fwfs = h5py.File(wf_file, 'r')
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
+        if not generator:
+            fig = plt.figure()
+            ax = fig.add_subplot(111)
         num_wf = 0   
-        for lab,s,c in zip(labels,output,cat):
+        for lab,s,c in zip(labels,output,cat): #label, score, category 
             ds_name = "{}/{}/{}".format(int(lab[0]), int(lab[1]), int(lab[2]))
             wf = fwfs[ds_name][...]
-            ax.plot(wf,drawstyle='steps-mid')
-            ax.set_xlim([0,wf.shape[0]]) 
-            ax.set_title("MLP score: {:.2f}\nEvent {}, Channel {}, Waveform {}, Original category: {}".format(
-                        s,int(lab[0]), int(lab[1]), int(lab[2]),cat_name[str(int(c))]))
-            ax.set_xlabel("Time (10 ns)") 
-            ax.set_ylabel("ADC counts above baseline") 
-            fig.savefig("{}/plots/wf{:04}.png".format(file_loc,num_wf))
-            plt.pause(0.001) 
-            ax.clear() 
+            if not generator:
+                ax.plot(wf,drawstyle='steps-mid')
+                ax.set_xlim([0,wf.shape[0]]) 
+                ax.set_title("MLP score: {:.2f}\nEvent {}, Channel {}, Waveform {}, Original category: {}".format(
+                            s,int(lab[0]), int(lab[1]), int(lab[2]),cat_name[str(int(c))]))
+                ax.set_xlabel("Time (10 ns)") 
+                ax.set_ylabel("ADC counts above baseline") 
+                fig.savefig("{}/plots/wf{:04}.png".format(file_loc,num_wf))
+                plt.pause(0.001) 
+                ax.clear() 
+            if generator:
+                yield lab, s, wf   
             if num_wf >= max_wf:
                 break 
             else:
